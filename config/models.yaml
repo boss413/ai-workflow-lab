@@ -1,0 +1,4 @@
+models:
+  - openai:gpt-4.1
+  - anthropic:claude-3-sonnet
+  - google:gemini-pro

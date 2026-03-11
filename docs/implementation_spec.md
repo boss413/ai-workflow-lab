@@ -6,7 +6,7 @@ System Overview
 
 The benchmarking framework consists of the following modules:
 
-datasets
+data_loader
 prompts
 models
 benchmarks
@@ -63,7 +63,7 @@ sample subset
 normalize schema
 
 Dependencies
-datasets (huggingface library)
+data_loader (huggingface library)
 Tests
 tests/test_dataset_loader.py
 
@@ -198,7 +198,7 @@ Example entry:
   "cost": 0.003
 }
 Dependencies
-datasets
+data_loader
 prompts
 models
 evaluation

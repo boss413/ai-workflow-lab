@@ -1,7 +1,13 @@
-pandas
-openai
-python-dotenv
-pydantic
+anthropic
+datasets
+google-genai
+google-generativeai
 langchain
 langgraph
+openai
+pandas
 requests
+python-dotenv
+pydantic
+pytest
+pyyaml
