@@ -1,4 +1,32 @@
 models:
-  - openai:gpt-4.1
-  - anthropic:claude-3-sonnet
-  - google:gemini-pro
+
+  gpt4_fast:
+    provider: openai
+    model_name: gpt-4.1-mini
+    cost_tier: low
+    strengths:
+      - classification
+      - extraction
+
+  gpt4_reasoning:
+    provider: openai
+    model_name: gpt-4.1
+    cost_tier: medium
+    strengths:
+      - reasoning
+      - generation
+
+  claude_summary:
+    provider: anthropic
+    model_name: claude-3-5-sonnet
+    cost_tier: medium
+    strengths:
+      - summarization
+
+  gemini_long_context:
+    provider: google
+    model_name: gemini-1.5-pro
+    cost_tier: medium
+    strengths:
+      - qa
+      - long_context

@@ -128,3 +128,80 @@ def load_config(
         len(config["tasks"]),
     )
     return config
+
+
+def _validate_generation_config(config: dict[str, Any]) -> dict[str, Any]:
+    """Validate generation_config.yaml structure."""
+    missing = {"defaults", "tasks"} - config.keys()
+    if missing:
+        raise ValueError(f"generation_config.yaml missing required keys: {sorted(missing)}")
+
+    defaults = config["defaults"]
+    missing_defaults = {"temperature", "top_p"} - defaults.keys()
+    if missing_defaults:
+        raise ValueError(
+            f"generation_config.yaml 'defaults' missing required keys: {sorted(missing_defaults)}"
+        )
+
+    tasks = config["tasks"]
+    for task_name, task_cfg in tasks.items():
+        if task_name not in VALID_TASKS:
+            raise ValueError(f"Unknown task '{task_name}' in generation_config.yaml")
+        if "max_tokens" not in task_cfg:
+            raise ValueError(
+                f"Task '{task_name}' in generation_config.yaml is missing 'max_tokens'"
+            )
+        if not isinstance(task_cfg["max_tokens"], int) or task_cfg["max_tokens"] <= 0:
+            raise ValueError(
+                f"Task '{task_name}' has invalid 'max_tokens': must be a positive integer"
+            )
+    return config
+
+
+def load_generation_config(
+    generation_config_path: Path | None = None,
+) -> dict[str, Any]:
+    """
+    Load and validate generation_config.yaml.
+
+    Returns a dict with keys 'defaults' (temperature, top_p) and
+    'tasks' (per-task max_tokens).
+
+    Raises:
+        FileNotFoundError: If the config file does not exist.
+        ValueError: If the config fails validation.
+    """
+    path = generation_config_path or CONFIG_DIR / "generation_config.yaml"
+    logger.info("Loading generation config from: %s", path)
+    raw = _load_yaml(path)
+    config = _validate_generation_config(raw)
+    logger.info("Generation config loaded: defaults=%s", config["defaults"])
+    return config
+
+
+def get_generation_params(task: str, config: dict[str, Any] | None = None) -> dict[str, Any]:
+    """
+    Return normalized generation parameters for a given task.
+
+    Args:
+        task: Capability category name.
+        config: Pre-loaded generation config dict. Loaded from disk if not provided.
+
+    Returns:
+        Dict with keys: temperature, top_p, max_tokens.
+    """
+    if config is None:
+        config = load_generation_config()
+
+    if task not in VALID_TASKS:
+        raise ValueError(f"Unknown task '{task}'. Valid tasks: {sorted(VALID_TASKS)}")
+
+    task_cfg = config.get("tasks", {}).get(task, {})
+    if "max_tokens" not in task_cfg:
+        raise ValueError(f"No max_tokens configured for task '{task}'")
+
+    return {
+        "temperature": config["defaults"]["temperature"],
+        "top_p": config["defaults"]["top_p"],
+        "max_tokens": task_cfg["max_tokens"],
+    }

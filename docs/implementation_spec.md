@@ -107,6 +107,19 @@ correct prompt structure
 
 correct variable substitution
 
+## Generation Configuration
+
+All model calls must use parameters loaded from:
+
+config/generation_config.yaml
+
+Required parameters:
+- temperature
+- top_p
+- max_tokens
+
+Adapters must not rely on provider defaults.
+
 Module 3 — Model Adapters
 Purpose
 
@@ -212,6 +225,26 @@ runner executes without failure
 results file generated
 
 results schema correct
+
+## Result Logging
+
+Every benchmark run must produce a JSON artifact containing:
+
+timestamp
+git_commit
+task
+dataset
+model
+prompt_version
+latency
+tokens_input
+tokens_output
+cost
+metrics
+
+Artifacts must be saved to:
+
+results/<run_id>.json
 
 Module 5 — Evaluation Metrics
 Purpose

@@ -1,0 +1,28 @@
+model_classes:
+
+  reasoning_heavy:
+    description: frontier reasoning models
+    models:
+      - openai:gpt-5.4
+      - anthropic:opus-4.6
+      - google:gemini-2.5-pro
+
+  reasoning_light:
+    description: efficient reasoning models
+    models:
+      - openai:o4-mini
+      - anthropic:sonnet
+      - google:gemini-flash
+
+  small_general:
+    description: cheap high-throughput models
+    models:
+      - openai:gpt-4.1-mini
+      - anthropic:haiku
+      - google:gemini-flash-lite
+
+  open_weight:
+    description: local or open weight models
+    models:
+      - meta:llama-3-70b
+      - mistral:mixtral-8x7b

@@ -299,6 +299,26 @@ executive summary
 
 model selection recommendations
 
+## Cross-Provider Normalization
+
+To ensure fair benchmarking across providers, all model adapters must normalize the following parameters:
+
+Temperature: 0
+Top_p: 1
+
+Adapters must also normalize message structure into the following schema:
+
+{
+  "system": "...",
+  "user": "..."
+}
+
+Adapters are responsible for translating this schema to the provider-specific format (OpenAI, Anthropic, Gemini, etc).
+
+Output token limits must be defined by task type via generation_config.yaml.
+
+This prevents benchmark distortion caused by provider defaults.
+
 8. Benchmark Data Sources
 
 Evaluation datasets are drawn primarily from the HuggingFace ecosystem.

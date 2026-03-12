@@ -107,3 +107,9 @@ Generated code must:
 - run without modification
 - include imports
 - include tests
+
+All external API adapters must:
+
+- accept normalized prompt schema
+- accept normalized generation parameters
+- return structured response objects

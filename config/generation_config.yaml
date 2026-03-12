@@ -1,0 +1,26 @@
+# config/generation_config.yaml
+#
+# Normalized generation parameters applied to ALL model adapters.
+# These values override provider defaults to ensure fair cross-provider benchmarking.
+# Temperature=0 and top_p=1 are fixed for reproducibility.
+
+defaults:
+  temperature: 0
+  top_p: 1
+
+# Per-task max_tokens limits.
+# Adapters must use the task-specific value when running a benchmark.
+# This prevents token budget from distorting latency and cost comparisons.
+tasks:
+  classification:
+    max_tokens: 16       # single label output
+  extraction:
+    max_tokens: 512      # structured JSON entity list
+  summarization:
+    max_tokens: 256      # 2-3 sentence executive summary
+  qa:
+    max_tokens: 128      # direct answer, 1-2 sentences
+  reasoning:
+    max_tokens: 512      # step-by-step solution + final answer
+  generation:
+    max_tokens: 256      # short professional content
