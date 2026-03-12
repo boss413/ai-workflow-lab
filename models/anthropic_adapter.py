@@ -3,12 +3,24 @@ models/anthropic_adapter.py
 
 Anthropic model adapter. Implements BaseModel using the Anthropic Python SDK.
 API key is read from the ANTHROPIC_API_KEY environment variable.
+
+Confidence method: self_report
+  Anthropic does not expose token log-probabilities. When confidence is
+  requested, the prompt is extended to ask the model to append a confidence
+  score (0-100) on a second line. This is parsed and normalised to [0.0, 1.0].
+
+  Caveats:
+  - LLM self-reported confidence is weakly calibrated.
+  - Treat it as a soft routing signal, not a statistical probability.
+  - It works best when the model outputs a single token label + score,
+    which the modified prompt enforces.
 """
 
 from __future__ import annotations
 
 import logging
 import os
+import re
 from typing import Any
 
 from models.base_model import BaseModel, ModelResponse
@@ -31,10 +43,36 @@ _COST_PER_1K: dict[str, dict[str, float]] = {
 _DEFAULT_COST: dict[str, float] = {"input": 0.003, "output": 0.015}
 _ENV_KEY = "ANTHROPIC_API_KEY"
 
+# Appended to the prompt when confidence is requested.
+_CONFIDENCE_INSTRUCTION = (
+    "\nAfter your answer, on a new line write only: "
+    "CONFIDENCE: <integer 0-100>"
+)
+_CONFIDENCE_RE = re.compile(r"CONFIDENCE:\s*(\d+)", re.IGNORECASE)
+
 
 def _calculate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
     rates = _COST_PER_1K.get(model, _DEFAULT_COST)
     return (input_tokens * rates["input"] + output_tokens * rates["output"]) / 1_000
+
+
+def _parse_self_report(text: str) -> tuple[str, float | None]:
+    """
+    Split model output into (label, confidence).
+
+    Expects output like:
+        business
+        CONFIDENCE: 92
+
+    Returns the label with the confidence line stripped, and confidence
+    normalised to [0.0, 1.0]. Returns (text, None) if no score found.
+    """
+    match = _CONFIDENCE_RE.search(text)
+    if not match:
+        return text.strip(), None
+    score = min(max(int(match.group(1)), 0), 100)
+    label = _CONFIDENCE_RE.sub("", text).strip()
+    return label, round(score / 100, 4)
 
 
 class AnthropicAdapter(BaseModel):
@@ -42,11 +80,14 @@ class AnthropicAdapter(BaseModel):
     Adapter for Anthropic Claude models.
 
     Args:
-        model_name: Anthropic model identifier (e.g. 'claude-sonnet-4-5').
+        model_name:  Anthropic model identifier (e.g. 'claude-sonnet-4-5').
         temperature: Default sampling temperature (overridden by generation_params).
-        max_tokens: Default max output tokens (overridden by generation_params).
-        top_p: Default top_p (overridden by generation_params).
-        api_key: Optional API key override. Defaults to ANTHROPIC_API_KEY env var.
+        max_tokens:  Default max output tokens (overridden by generation_params).
+        top_p:       Default top_p (overridden by generation_params).
+        report_confidence: If True, append a confidence instruction to the prompt
+                     and parse the self-reported score into ModelResponse.confidence.
+                     Adds ~5 output tokens per call. Defaults to True.
+        api_key:     Optional API key override. Defaults to ANTHROPIC_API_KEY env var.
     """
 
     def __init__(
@@ -55,12 +96,14 @@ class AnthropicAdapter(BaseModel):
         temperature: float = 0.0,
         max_tokens: int = 1024,
         top_p: float = 1.0,
+        report_confidence: bool = True,
         api_key: str | None = None,
     ) -> None:
         self._model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.top_p = top_p
+        self.report_confidence = report_confidence
         self._api_key = api_key or os.environ.get(_ENV_KEY)
 
         if not self._api_key:
@@ -81,20 +124,15 @@ class AnthropicAdapter(BaseModel):
         prompt: str | dict[str, str],
         generation_params: dict[str, Any] | None = None,
     ) -> ModelResponse:
-        """
-        Send a prompt to the Anthropic messages API and return a ModelResponse.
-
-        Args:
-            prompt: A plain string (user message) or normalized schema:
-                    {"system": "...", "user": "..."}
-            generation_params: Normalized params with keys temperature, top_p,
-                               max_tokens. Falls back to adapter defaults.
-        """
         user_text, system_text = self._parse_prompt(prompt)
+        if self.report_confidence:
+            user_text = user_text + _CONFIDENCE_INSTRUCTION
+
         params = self._resolve_params(generation_params)
         client = self._build_client()
 
-        logger.info("Calling Anthropic model='%s'.", self._model_name)
+        logger.info("Calling Anthropic model='%s' report_confidence=%s.",
+                    self._model_name, self.report_confidence)
 
         api_kwargs: dict[str, Any] = dict(
             model=self._model_name,
@@ -117,7 +155,6 @@ class AnthropicAdapter(BaseModel):
         return self._parse_response(response, timer.elapsed)
 
     def _parse_prompt(self, prompt: str | dict[str, str]) -> tuple[str, str]:
-        """Return (user_text, system_text) from a string or normalized schema."""
         if isinstance(prompt, str):
             self._validate_prompt(prompt)
             return prompt, ""
@@ -148,19 +185,30 @@ class AnthropicAdapter(BaseModel):
 
     def _parse_response(self, response: Any, latency: float) -> ModelResponse:
         try:
-            text = response.content[0].text if response.content else ""
+            raw_text = response.content[0].text if response.content else ""
             usage = response.usage
             input_tokens = int(usage.input_tokens)
             output_tokens = int(usage.output_tokens)
         except (AttributeError, IndexError, TypeError) as exc:
             raise RuntimeError(f"Unexpected Anthropic response structure: {exc}") from exc
 
+        if self.report_confidence:
+            text, confidence = _parse_self_report(raw_text)
+            confidence_source = "self_report" if confidence is not None else None
+        else:
+            text, confidence, confidence_source = raw_text, None, None
+
         cost = _calculate_cost(self._model_name, input_tokens, output_tokens)
         logger.info(
-            "Anthropic model='%s' tokens=(%d in, %d out) cost=$%.6f latency=%.3fs.",
-            self._model_name, input_tokens, output_tokens, cost, latency,
+            "Anthropic model='%s' tokens=(%d in, %d out) cost=$%.6f latency=%.3fs confidence=%s.",
+            self._model_name, input_tokens, output_tokens, cost, latency, confidence,
         )
         return ModelResponse(
-            text=text, input_tokens=input_tokens, output_tokens=output_tokens,
-            cost=cost, latency=latency,
+            text=text,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            cost=cost,
+            latency=latency,
+            confidence=confidence,
+            confidence_source=confidence_source,
         )

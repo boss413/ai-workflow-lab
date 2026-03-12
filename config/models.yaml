@@ -1,32 +1,94 @@
+# config/models.yaml
+#
+# Model registry for benchmarking.
+#
+# Each entry:
+#   provider:    openai | anthropic | google
+#   model_name:  exact API model string
+#   cost_tier:   low | medium | high
+#   strengths:   list of tasks this model is well-suited for
+#   enabled:     set to false to exclude without deleting the entry
+
 models:
 
-  gpt4_fast:
+  # ── OpenAI ────────────────────────────────────────────────────────────────
+  gpt41_mini:
     provider: openai
     model_name: gpt-4.1-mini
     cost_tier: low
+    enabled: true
+    strengths:
+      - classification
+      - extraction
+      - qa
+
+  gpt41:
+    provider: openai
+    model_name: gpt-4.1
+    cost_tier: medium
+    enabled: true
+    strengths:
+      - reasoning
+      - generation
+      - summarization
+
+  gpt4o:
+    provider: openai
+    model_name: gpt-4o
+    cost_tier: medium
+    enabled: true
+    strengths:
+      - classification
+      - reasoning
+      - generation
+
+  gpt4o_mini:
+    provider: openai
+    model_name: gpt-4o-mini
+    cost_tier: low
+    enabled: true
     strengths:
       - classification
       - extraction
 
-  gpt4_reasoning:
-    provider: openai
-    model_name: gpt-4.1
-    cost_tier: medium
-    strengths:
-      - reasoning
-      - generation
-
-  claude_summary:
+  # ── Anthropic ─────────────────────────────────────────────────────────────
+  claude_sonnet:
     provider: anthropic
-    model_name: claude-3-5-sonnet
+    model_name: claude-3-5-sonnet-20241022
     cost_tier: medium
+    enabled: false
     strengths:
       - summarization
+      - generation
+      - reasoning
 
-  gemini_long_context:
+  claude_haiku:
+    provider: anthropic
+    model_name: claude-3-5-haiku-20241022
+    cost_tier: low
+    enabled: false
+    strengths:
+      - classification
+      - extraction
+      - qa
+
+  # ── Google ────────────────────────────────────────────────────────────────
+  gemini_flash:
+    provider: google
+    model_name: gemini-2.0-flash
+    cost_tier: low
+    enabled: false
+    strengths:
+      - classification
+      - extraction
+      - qa
+
+  gemini_pro:
     provider: google
     model_name: gemini-1.5-pro
     cost_tier: medium
+    enabled: false
     strengths:
       - qa
-      - long_context
+      - summarization
+      - reasoning

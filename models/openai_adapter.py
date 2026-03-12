@@ -3,11 +3,18 @@ models/openai_adapter.py
 
 OpenAI model adapter. Implements BaseModel using the OpenAI Python SDK.
 API key is read from the OPENAI_API_KEY environment variable.
+
+Confidence method: logprobs
+  Requests logprobs=True on the completion and converts the log-probability
+  of the first output token to a linear probability. For single-token
+  classification labels this is the most meaningful confidence signal available.
+  Formula: confidence = exp(logprob_of_first_token)
 """
 
 from __future__ import annotations
 
 import logging
+import math
 import os
 from typing import Any
 
@@ -34,16 +41,39 @@ def _calculate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
     return (input_tokens * rates["input"] + output_tokens * rates["output"]) / 1_000
 
 
+def _extract_logprob_confidence(response: Any) -> float | None:
+    """
+    Extract confidence from the logprob of the first output token.
+
+    For a well-prompted classifier that returns a single label token,
+    this is the model's actual probability for that token — the most
+    statistically grounded confidence signal available from the API.
+
+    Returns None if logprobs are absent or malformed.
+    """
+    try:
+        token_logprobs = response.choices[0].logprobs.content
+        if not token_logprobs:
+            return None
+        first_logprob = token_logprobs[0].logprob
+        return round(math.exp(first_logprob), 4)
+    except (AttributeError, IndexError, TypeError):
+        return None
+
+
 class OpenAIAdapter(BaseModel):
     """
     Adapter for OpenAI chat completion models.
 
     Args:
-        model_name: OpenAI model identifier (e.g. 'gpt-4o', 'gpt-4.1-mini').
-        temperature: Default sampling temperature (overridden by generation_params).
-        max_tokens: Default max output tokens (overridden by generation_params).
-        top_p: Default top_p (overridden by generation_params).
-        api_key: Optional API key override. Defaults to OPENAI_API_KEY env var.
+        model_name:   OpenAI model identifier (e.g. 'gpt-4o', 'gpt-4.1-mini').
+        temperature:  Default sampling temperature (overridden by generation_params).
+        max_tokens:   Default max output tokens (overridden by generation_params).
+        top_p:        Default top_p (overridden by generation_params).
+        logprobs:     If True, request token log-probabilities from the API and
+                      report confidence on ModelResponse. Adds no cost, negligible
+                      latency. Defaults to True.
+        api_key:      Optional API key override. Defaults to OPENAI_API_KEY env var.
     """
 
     def __init__(
@@ -52,12 +82,14 @@ class OpenAIAdapter(BaseModel):
         temperature: float = 0.0,
         max_tokens: int | None = 1024,
         top_p: float = 1.0,
+        logprobs: bool = True,
         api_key: str | None = None,
     ) -> None:
         self._model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.top_p = top_p
+        self.logprobs = logprobs
         self._api_key = api_key or os.environ.get(_ENV_KEY)
 
         if not self._api_key:
@@ -81,17 +113,15 @@ class OpenAIAdapter(BaseModel):
         """
         Send a prompt to the OpenAI chat completions API and return a ModelResponse.
 
-        Args:
-            prompt: A plain string (user message) or normalized schema:
-                    {"system": "...", "user": "..."}
-            generation_params: Normalized params with keys temperature, top_p,
-                               max_tokens. Falls back to adapter defaults.
+        Confidence is derived from the log-probability of the first output token
+        when logprobs=True (the default). For single-token classification outputs
+        this is directly the model's probability for the label it chose.
         """
         messages = self._build_messages(prompt)
         params = self._resolve_params(generation_params)
         client = self._build_client()
 
-        logger.info("Calling OpenAI model='%s'.", self._model_name)
+        logger.info("Calling OpenAI model='%s' logprobs=%s.", self._model_name, self.logprobs)
 
         try:
             with self._measure_latency() as timer:
@@ -100,6 +130,7 @@ class OpenAIAdapter(BaseModel):
                     messages=messages,
                     temperature=params["temperature"],
                     top_p=params["top_p"],
+                    logprobs=self.logprobs,
                     **({"max_tokens": params["max_tokens"]} if params.get("max_tokens") else {}),
                 )
         except Exception as exc:
@@ -110,7 +141,6 @@ class OpenAIAdapter(BaseModel):
         return self._parse_response(response, timer.elapsed)
 
     def _build_messages(self, prompt: str | dict[str, str]) -> list[dict[str, str]]:
-        """Translate normalized prompt schema to OpenAI messages list."""
         if isinstance(prompt, str):
             self._validate_prompt(prompt)
             return [{"role": "user", "content": prompt}]
@@ -125,7 +155,6 @@ class OpenAIAdapter(BaseModel):
         return messages
 
     def _resolve_params(self, generation_params: dict[str, Any] | None) -> dict[str, Any]:
-        """Merge provided generation_params with adapter defaults."""
         return {
             "temperature": generation_params.get("temperature", self.temperature)
                            if generation_params else self.temperature,
@@ -153,12 +182,20 @@ class OpenAIAdapter(BaseModel):
         except (AttributeError, IndexError, TypeError) as exc:
             raise RuntimeError(f"Unexpected OpenAI response structure: {exc}") from exc
 
+        confidence = _extract_logprob_confidence(response) if self.logprobs else None
+        confidence_source = "logprobs" if confidence is not None else None
+
         cost = _calculate_cost(self._model_name, input_tokens, output_tokens)
         logger.info(
-            "OpenAI model='%s' tokens=(%d in, %d out) cost=$%.6f latency=%.3fs.",
-            self._model_name, input_tokens, output_tokens, cost, latency,
+            "OpenAI model='%s' tokens=(%d in, %d out) cost=$%.6f latency=%.3fs confidence=%s.",
+            self._model_name, input_tokens, output_tokens, cost, latency, confidence,
         )
         return ModelResponse(
-            text=text, input_tokens=input_tokens, output_tokens=output_tokens,
-            cost=cost, latency=latency,
+            text=text,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            cost=cost,
+            latency=latency,
+            confidence=confidence,
+            confidence_source=confidence_source,
         )

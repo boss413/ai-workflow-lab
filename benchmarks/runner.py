@@ -83,6 +83,8 @@ def _make_record(
         "input_tokens": response.input_tokens,
         "output_tokens": response.output_tokens,
         "cost": round(response.cost, 8),
+        "confidence": response.confidence,
+        "confidence_source": response.confidence_source,
     }
 
 

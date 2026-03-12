@@ -1,0 +1,76 @@
+# config/datasets.yaml
+#
+# Dataset registry for all benchmark tasks.
+#
+# Each entry declares:
+#   source:      "huggingface" | "local_csv" | "local_jsonl"
+#   task:        capability category this dataset maps to
+#   input_field: field in raw dataset to use as model input
+#   label_field: field in raw dataset to use as ground truth
+#   label_map:   optional integer-to-string label translation
+#
+# To add a local dataset, set source: local_jsonl (or local_csv)
+# and set path: relative to project root.
+# Fields must still map to input_field and label_field.
+#
+# Example local entry:
+#   support_tickets:
+#     source: local_jsonl
+#     path: data/support_tickets.jsonl
+#     task: classification
+#     input_field: body
+#     label_field: category
+
+classification:
+  source: huggingface
+  hf_name: ag_news
+  hf_split: test
+  task: classification
+  input_field: text
+  label_field: label
+  label_map:
+    0: world
+    1: sports
+    2: business
+    3: science_tech
+
+extraction:
+  source: huggingface
+  hf_name: conll2003
+  hf_split: test
+  task: extraction
+  input_field: tokens
+  label_field: ner_tags
+
+summarization:
+  source: huggingface
+  hf_name: xsum
+  hf_split: test
+  task: summarization
+  input_field: document
+  label_field: summary
+
+qa:
+  source: huggingface
+  hf_name: rajpurkar/squad
+  hf_split: validation
+  task: qa
+  input_field: context
+  label_field: answers
+
+reasoning:
+  source: huggingface
+  hf_name: gsm8k
+  hf_config: main
+  hf_split: test
+  task: reasoning
+  input_field: question
+  label_field: answer
+
+generation:
+  source: huggingface
+  hf_name: common_gen
+  hf_split: validation
+  task: generation
+  input_field: concepts
+  label_field: target

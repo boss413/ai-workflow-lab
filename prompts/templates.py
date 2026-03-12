@@ -3,6 +3,10 @@ prompts/templates.py
 
 Generate standardized prompts for each benchmark capability category.
 Prompts simulate realistic enterprise automation scenarios.
+
+The classification template accepts dynamic categories injected from the
+dataset config (datasets.yaml label_map), so the same prompt template
+works for AG News, support tickets, or any other classification dataset.
 """
 
 from __future__ import annotations
@@ -19,24 +23,22 @@ SUPPORTED_TASKS: frozenset[str] = frozenset(
 
 # ---------------------------------------------------------------------------
 # Prompt templates
-# Each template uses $variable substitution via string.Template.
+# $variable placeholders substituted via string.Template.safe_substitute().
+# classification uses $categories — injected at runtime from dataset config.
 # ---------------------------------------------------------------------------
 
 _TEMPLATES: dict[str, str] = {
     "classification": """\
-You are an enterprise AI assistant for customer support ticket routing.
+You are a classifier.
 
-Classify the following message into exactly one of these categories:
-- billing
-- technical
-- account
-- general
+Classify the following text into exactly one of these categories:
+$categories
 
 Rules:
 - Reply with only the category label. No explanation.
 - Use lowercase.
 
-Message:
+Text:
 $input
 
 Category:""",
@@ -111,7 +113,7 @@ Requirements:
 Output:""",
 }
 
-# Required substitution variables per task
+# Required substitution variables per task (excluding auto-injected ones like $categories)
 _REQUIRED_FIELDS: dict[str, set[str]] = {
     "classification": {"input"},
     "extraction": {"input"},
@@ -126,7 +128,11 @@ _REQUIRED_FIELDS: dict[str, set[str]] = {
 # Public interface
 # ---------------------------------------------------------------------------
 
-def generate_prompt(task: str, example: dict[str, Any]) -> str:
+def generate_prompt(
+    task: str,
+    example: dict[str, Any],
+    categories: list[str] | None = None,
+) -> str:
     """
     Generate a standardized benchmark prompt for the given task and example.
 
@@ -136,6 +142,9 @@ def generate_prompt(task: str, example: dict[str, Any]) -> str:
         example: Dictionary containing the example fields required by the task.
                  All tasks require at minimum an "input" key. The "qa" task
                  additionally requires a "question" key.
+        categories: For classification only — list of valid label strings to
+                    inject into the prompt. Loaded from datasets.yaml label_map.
+                    Falls back to a generic placeholder if not provided.
 
     Returns:
         A fully rendered prompt string ready to be sent to a model.
@@ -161,9 +170,13 @@ def generate_prompt(task: str, example: dict[str, Any]) -> str:
             f"Example has empty required fields for task '{task}': {sorted(empty_fields)}"
         )
 
-    template = Template(_TEMPLATES[task])
     substitutions = {key: str(example[key]) for key in required}
 
+    if task == "classification":
+        category_list = categories or ["(no categories configured)"]
+        substitutions["categories"] = "\n".join(f"- {c}" for c in category_list)
+
+    template = Template(_TEMPLATES[task])
     prompt = template.safe_substitute(substitutions)
 
     logger.debug("Generated prompt for task='%s' (%d chars).", task, len(prompt))
@@ -171,18 +184,7 @@ def generate_prompt(task: str, example: dict[str, Any]) -> str:
 
 
 def get_template(task: str) -> str:
-    """
-    Return the raw template string for the given task.
-
-    Args:
-        task: Capability category.
-
-    Returns:
-        Raw template string with $variable placeholders.
-
-    Raises:
-        ValueError: If the task is unsupported.
-    """
+    """Return the raw template string for the given task."""
     if task not in SUPPORTED_TASKS:
         raise ValueError(
             f"Unsupported task '{task}'. Supported tasks: {sorted(SUPPORTED_TASKS)}"

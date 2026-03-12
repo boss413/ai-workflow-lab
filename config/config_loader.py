@@ -1,11 +1,10 @@
 """
 config/config_loader.py
 
-Loads and validates runtime configuration for models and tasks.
+Loads and validates runtime configuration for models, tasks, and generation params.
 """
 
 import logging
-import os
 from pathlib import Path
 from typing import Any
 
@@ -14,14 +13,18 @@ import yaml
 logger = logging.getLogger(__name__)
 
 VALID_TASKS = {"classification", "extraction", "summarization", "qa", "reasoning", "generation"}
+VALID_PROVIDERS = {"openai", "anthropic", "google"}
+VALID_COST_TIERS = {"low", "medium", "high"}
 REQUIRED_TASK_FIELDS = {"dataset", "sample_size"}
-REQUIRED_TOP_LEVEL_KEYS = {"models", "tasks"}
 
 CONFIG_DIR = Path(__file__).parent
 
 
+# ---------------------------------------------------------------------------
+# YAML loading
+# ---------------------------------------------------------------------------
+
 def _load_yaml(path: Path) -> dict[str, Any]:
-    """Load a YAML file and return its contents as a dictionary."""
     if not path.exists():
         raise FileNotFoundError(f"Config file not found: {path}")
     with path.open("r", encoding="utf-8") as f:
@@ -31,33 +34,66 @@ def _load_yaml(path: Path) -> dict[str, Any]:
     return content
 
 
-def _validate_models(models: Any) -> list[str]:
-    """Validate the models list."""
-    if not isinstance(models, list):
-        raise ValueError("'models' must be a list of model identifiers.")
-    if len(models) == 0:
-        raise ValueError("'models' list must not be empty.")
-    for entry in models:
-        if not isinstance(entry, str):
-            raise ValueError(f"Each model entry must be a string, got: {type(entry)}")
-        if ":" not in entry:
-            raise ValueError(
-                f"Model entry '{entry}' must follow the format 'provider:model_name'."
-            )
-    return models
+# ---------------------------------------------------------------------------
+# Model validation
+# ---------------------------------------------------------------------------
 
+def _validate_model_entry(alias: str, entry: dict[str, Any]) -> dict[str, Any]:
+    """Validate a single model entry and return it with defaults applied."""
+    required = {"provider", "model_name"}
+    missing = required - entry.keys()
+    if missing:
+        raise ValueError(f"Model '{alias}' is missing required fields: {sorted(missing)}")
+
+    if entry["provider"] not in VALID_PROVIDERS:
+        raise ValueError(
+            f"Model '{alias}' has unknown provider '{entry['provider']}'. "
+            f"Valid: {sorted(VALID_PROVIDERS)}"
+        )
+    if not isinstance(entry["model_name"], str) or not entry["model_name"].strip():
+        raise ValueError(f"Model '{alias}' has invalid model_name.")
+
+    cost_tier = entry.get("cost_tier", "medium")
+    if cost_tier not in VALID_COST_TIERS:
+        raise ValueError(
+            f"Model '{alias}' has unknown cost_tier '{cost_tier}'. "
+            f"Valid: {sorted(VALID_COST_TIERS)}"
+        )
+
+    return {
+        "alias": alias,
+        "provider": entry["provider"],
+        "model_name": entry["model_name"],
+        "model_id": f"{entry['provider']}:{entry['model_name']}",
+        "cost_tier": cost_tier,
+        "strengths": entry.get("strengths", []),
+        "enabled": entry.get("enabled", True),
+    }
+
+
+def _validate_models(models_dict: Any) -> dict[str, dict[str, Any]]:
+    if not isinstance(models_dict, dict):
+        raise ValueError("'models' must be a mapping of alias → model config.")
+    if not models_dict:
+        raise ValueError("'models' must not be empty.")
+    return {
+        alias: _validate_model_entry(alias, entry)
+        for alias, entry in models_dict.items()
+    }
+
+
+# ---------------------------------------------------------------------------
+# Task validation
+# ---------------------------------------------------------------------------
 
 def _validate_tasks(tasks: Any) -> dict[str, dict[str, Any]]:
-    """Validate the tasks configuration."""
     if not isinstance(tasks, dict):
         raise ValueError("'tasks' must be a mapping of task names to task configurations.")
-    if len(tasks) == 0:
+    if not tasks:
         raise ValueError("'tasks' mapping must not be empty.")
     for task_name, task_config in tasks.items():
         if task_name not in VALID_TASKS:
-            raise ValueError(
-                f"Unknown task '{task_name}'. Valid tasks are: {sorted(VALID_TASKS)}"
-            )
+            raise ValueError(f"Unknown task '{task_name}'. Valid: {sorted(VALID_TASKS)}")
         if not isinstance(task_config, dict):
             raise ValueError(f"Configuration for task '{task_name}' must be a mapping.")
         missing_fields = REQUIRED_TASK_FIELDS - task_config.keys()
@@ -65,114 +101,125 @@ def _validate_tasks(tasks: Any) -> dict[str, dict[str, Any]]:
             raise ValueError(
                 f"Task '{task_name}' is missing required fields: {sorted(missing_fields)}"
             )
-        sample_size = task_config["sample_size"]
-        if not isinstance(sample_size, int) or sample_size <= 0:
-            raise ValueError(
-                f"Task '{task_name}' has invalid 'sample_size': must be a positive integer."
-            )
-        dataset = task_config["dataset"]
-        if not isinstance(dataset, str) or not dataset.strip():
-            raise ValueError(
-                f"Task '{task_name}' has invalid 'dataset': must be a non-empty string."
-            )
+        if not isinstance(task_config["sample_size"], int) or task_config["sample_size"] <= 0:
+            raise ValueError(f"Task '{task_name}' has invalid 'sample_size'.")
+        if not isinstance(task_config["dataset"], str) or not task_config["dataset"].strip():
+            raise ValueError(f"Task '{task_name}' has invalid 'dataset'.")
     return tasks
 
 
-def _merge_configs(models_config: dict[str, Any], tasks_config: dict[str, Any]) -> dict[str, Any]:
-    """Merge models and tasks configs into a single configuration dictionary."""
-    if "models" not in models_config:
+# ---------------------------------------------------------------------------
+# Config loading
+# ---------------------------------------------------------------------------
+
+def load_models(models_path: Path | None = None) -> dict[str, dict[str, Any]]:
+    """
+    Load and validate models.yaml.
+
+    Returns a dict keyed by alias, each value containing:
+      alias, provider, model_name, model_id, cost_tier, strengths, enabled
+    """
+    path = models_path or CONFIG_DIR / "models.yaml"
+    raw = _load_yaml(path)
+    if "models" not in raw:
         raise ValueError("models.yaml is missing required top-level key: 'models'")
-    if "tasks" not in tasks_config:
-        raise ValueError("tasks.yaml is missing required top-level key: 'tasks'")
-    return {
-        "models": models_config["models"],
-        "tasks": tasks_config["tasks"],
-    }
+    return _validate_models(raw["models"])
 
 
 def load_config(
     models_path: Path | None = None,
     tasks_path: Path | None = None,
 ) -> dict[str, Any]:
+    """Load and validate models.yaml and tasks.yaml into a merged config dict."""
+    tasks_path = tasks_path or CONFIG_DIR / "tasks.yaml"
+    tasks_raw = _load_yaml(tasks_path)
+    if "tasks" not in tasks_raw:
+        raise ValueError("tasks.yaml is missing required top-level key: 'tasks'")
+
+    models = load_models(models_path)
+    tasks = _validate_tasks(tasks_raw["tasks"])
+
+    logger.info("Config loaded: %d models, %d tasks.", len(models), len(tasks))
+    return {"models": models, "tasks": tasks}
+
+
+# ---------------------------------------------------------------------------
+# Model selection helpers
+# ---------------------------------------------------------------------------
+
+def get_enabled_models(models: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Return only models where enabled=True."""
+    return {k: v for k, v in models.items() if v["enabled"]}
+
+
+def get_models_for_task(
+    task: str,
+    models: dict[str, dict[str, Any]],
+    enabled_only: bool = True,
+) -> dict[str, dict[str, Any]]:
     """
-    Load and validate runtime configuration for models and tasks.
+    Return models that list the given task in their strengths.
 
     Args:
-        models_path: Path to models.yaml. Defaults to config/models.yaml.
-        tasks_path: Path to tasks.yaml. Defaults to config/tasks.yaml.
-
-    Returns:
-        A validated configuration dictionary with keys 'models' and 'tasks'.
-
-    Raises:
-        FileNotFoundError: If a config file does not exist.
-        ValueError: If the config fails validation.
+        task: Capability category to filter by.
+        models: Full model registry from load_models().
+        enabled_only: If True (default), exclude disabled models.
     """
-    models_path = models_path or CONFIG_DIR / "models.yaml"
-    tasks_path = tasks_path or CONFIG_DIR / "tasks.yaml"
+    if task not in VALID_TASKS:
+        raise ValueError(f"Unknown task '{task}'. Valid: {sorted(VALID_TASKS)}")
+    return {
+        alias: m for alias, m in models.items()
+        if task in m["strengths"]
+        and (not enabled_only or m["enabled"])
+    }
 
-    logger.info("Loading models config from: %s", models_path)
-    models_raw = _load_yaml(models_path)
 
-    logger.info("Loading tasks config from: %s", tasks_path)
-    tasks_raw = _load_yaml(tasks_path)
+def get_models_by_cost_tier(
+    tier: str,
+    models: dict[str, dict[str, Any]],
+    enabled_only: bool = True,
+) -> dict[str, dict[str, Any]]:
+    """Return models matching a cost tier (low | medium | high)."""
+    if tier not in VALID_COST_TIERS:
+        raise ValueError(f"Unknown cost tier '{tier}'. Valid: {sorted(VALID_COST_TIERS)}")
+    return {
+        alias: m for alias, m in models.items()
+        if m["cost_tier"] == tier
+        and (not enabled_only or m["enabled"])
+    }
 
-    config = _merge_configs(models_raw, tasks_raw)
 
-    config["models"] = _validate_models(config["models"])
-    config["tasks"] = _validate_tasks(config["tasks"])
+def get_model_ids(models: dict[str, dict[str, Any]]) -> list[str]:
+    """Return list of 'provider:model_name' strings for use with _build_adapter."""
+    return [m["model_id"] for m in models.values()]
 
-    logger.info(
-        "Config loaded successfully: %d models, %d tasks.",
-        len(config["models"]),
-        len(config["tasks"]),
-    )
-    return config
 
+# ---------------------------------------------------------------------------
+# Generation config
+# ---------------------------------------------------------------------------
 
 def _validate_generation_config(config: dict[str, Any]) -> dict[str, Any]:
-    """Validate generation_config.yaml structure."""
     missing = {"defaults", "tasks"} - config.keys()
     if missing:
         raise ValueError(f"generation_config.yaml missing required keys: {sorted(missing)}")
-
-    defaults = config["defaults"]
-    missing_defaults = {"temperature", "top_p"} - defaults.keys()
+    missing_defaults = {"temperature", "top_p"} - config["defaults"].keys()
     if missing_defaults:
         raise ValueError(
-            f"generation_config.yaml 'defaults' missing required keys: {sorted(missing_defaults)}"
+            f"generation_config.yaml 'defaults' missing: {sorted(missing_defaults)}"
         )
-
-    tasks = config["tasks"]
-    for task_name, task_cfg in tasks.items():
+    for task_name, task_cfg in config["tasks"].items():
         if task_name not in VALID_TASKS:
             raise ValueError(f"Unknown task '{task_name}' in generation_config.yaml")
         if "max_tokens" not in task_cfg:
-            raise ValueError(
-                f"Task '{task_name}' in generation_config.yaml is missing 'max_tokens'"
-            )
+            raise ValueError(f"Task '{task_name}' in generation_config.yaml missing 'max_tokens'")
         if not isinstance(task_cfg["max_tokens"], int) or task_cfg["max_tokens"] <= 0:
-            raise ValueError(
-                f"Task '{task_name}' has invalid 'max_tokens': must be a positive integer"
-            )
+            raise ValueError(f"Task '{task_name}' has invalid 'max_tokens'")
     return config
 
 
-def load_generation_config(
-    generation_config_path: Path | None = None,
-) -> dict[str, Any]:
-    """
-    Load and validate generation_config.yaml.
-
-    Returns a dict with keys 'defaults' (temperature, top_p) and
-    'tasks' (per-task max_tokens).
-
-    Raises:
-        FileNotFoundError: If the config file does not exist.
-        ValueError: If the config fails validation.
-    """
+def load_generation_config(generation_config_path: Path | None = None) -> dict[str, Any]:
+    """Load and validate generation_config.yaml."""
     path = generation_config_path or CONFIG_DIR / "generation_config.yaml"
-    logger.info("Loading generation config from: %s", path)
     raw = _load_yaml(path)
     config = _validate_generation_config(raw)
     logger.info("Generation config loaded: defaults=%s", config["defaults"])
@@ -180,26 +227,14 @@ def load_generation_config(
 
 
 def get_generation_params(task: str, config: dict[str, Any] | None = None) -> dict[str, Any]:
-    """
-    Return normalized generation parameters for a given task.
-
-    Args:
-        task: Capability category name.
-        config: Pre-loaded generation config dict. Loaded from disk if not provided.
-
-    Returns:
-        Dict with keys: temperature, top_p, max_tokens.
-    """
+    """Return normalized {temperature, top_p, max_tokens} for a task."""
     if config is None:
         config = load_generation_config()
-
     if task not in VALID_TASKS:
-        raise ValueError(f"Unknown task '{task}'. Valid tasks: {sorted(VALID_TASKS)}")
-
+        raise ValueError(f"Unknown task '{task}'. Valid: {sorted(VALID_TASKS)}")
     task_cfg = config.get("tasks", {}).get(task, {})
     if "max_tokens" not in task_cfg:
         raise ValueError(f"No max_tokens configured for task '{task}'")
-
     return {
         "temperature": config["defaults"]["temperature"],
         "top_p": config["defaults"]["top_p"],

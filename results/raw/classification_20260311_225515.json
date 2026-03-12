@@ -1,0 +1,202 @@
+[
+  {
+    "input": "Fears for T N pension after talks Unions representing workers at Turner   Newall say they are 'disappointed' after talks with stricken parent firm Federal Mogul.",
+    "predicted": "business",
+    "actual": "business",
+    "correct": 1,
+    "latency": 0.8015,
+    "input_tokens": 83,
+    "output_tokens": 1,
+    "cost": 3.48e-05
+  },
+  {
+    "input": "The Race is On: Second Private Team Sets Launch Date for Human Spaceflight (SPACE.com) SPACE.com - TORONTO, Canada -- A second\\team of rocketeers competing for the  #36;10 million Ansari X Prize, a contest for\\privately funded suborbital space flight, has officially announced the first\\launch date for its manned rocket.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.4855,
+    "input_tokens": 124,
+    "output_tokens": 3,
+    "cost": 5.44e-05
+  },
+  {
+    "input": "Ky. Company Wins Grant to Study Peptides (AP) AP - A company founded by a chemistry researcher at the University of Louisville won a grant to develop a method of producing better peptides, which are short chains of amino acids, the building blocks of proteins.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.2971,
+    "input_tokens": 100,
+    "output_tokens": 3,
+    "cost": 4.48e-05
+  },
+  {
+    "input": "Prediction Unit Helps Forecast Wildfires (AP) AP - It's barely dawn when Mike Fitzpatrick starts his shift with a blur of colorful maps, figures and endless charts, but already he knows what the day will bring. Lightning will strike in places he expects. Winds will pick up, moist places will dry and flames will roar.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.5899,
+    "input_tokens": 113,
+    "output_tokens": 3,
+    "cost": 5e-05
+  },
+  {
+    "input": "Calif. Aims to Limit Farm-Related Smog (AP) AP - Southern California's smog-fighting agency went after emissions of the bovine variety Friday, adopting the nation's first rules to reduce air pollution from dairy cow manure.",
+    "predicted": "world",
+    "actual": "science_tech",
+    "correct": 0,
+    "latency": 1.1822,
+    "input_tokens": 97,
+    "output_tokens": 1,
+    "cost": 4.04e-05
+  },
+  {
+    "input": "Open Letter Against British Copyright Indoctrination in Schools The British Department for Education and Skills (DfES) recently launched a \"Music Manifesto\" campaign, with the ostensible intention of educating the next generation of British musicians. Unfortunately, they also teamed up with the music industry (EMI, and various artists) to make this popular. EMI has apparently negotiated their end well, so that children in our schools will now be indoctrinated about the illegality of downloading music.The ignorance and audacity of this got to me a little, so I wrote an open letter to the DfES about it. Unfortunately, it's pedantic, as I suppose you have to be when writing to goverment representatives. But I hope you find it useful, and perhaps feel inspired to do something similar, if or when the same thing has happened in your area.",
+    "predicted": "world",
+    "actual": "science_tech",
+    "correct": 0,
+    "latency": 0.4021,
+    "input_tokens": 219,
+    "output_tokens": 1,
+    "cost": 8.92e-05
+  },
+  {
+    "input": "Loosing the War on Terrorism \\\\\"Sven Jaschan, self-confessed author of the Netsky and Sasser viruses, is\\responsible for 70 percent of virus infections in 2004, according to a six-month\\virus roundup published Wednesday by antivirus company Sophos.\"\\\\\"The 18-year-old Jaschan was taken into custody in Germany in May by police who\\said he had admitted programming both the Netsky and Sasser worms, something\\experts at Microsoft confirmed. (A Microsoft antivirus reward program led to the\\teenager's arrest.) During the five months preceding Jaschan's capture, there\\were at least 25 variants of Netsky and one of the port-scanning network worm\\Sasser.\"\\\\\"Graham Cluley, senior technology consultant at Sophos, said it was staggeri ...\\\\",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.3215,
+    "input_tokens": 219,
+    "output_tokens": 3,
+    "cost": 9.24e-05
+  },
+  {
+    "input": "FOAFKey: FOAF, PGP, Key Distribution, and Bloom Filters \\\\FOAF/LOAF  and bloom filters have a lot of interesting properties for social\\network and whitelist distribution.\\\\I think we can go one level higher though and include GPG/OpenPGP key\\fingerpring distribution in the FOAF file for simple web-of-trust based key\\distribution.\\\\What if we used FOAF and included the PGP key fingerprint(s) for identities?\\This could mean a lot.  You include the PGP key fingerprints within the FOAF\\file of your direct friends and then include a bloom filter of the PGP key\\fingerprints of your entire whitelist (the source FOAF file would of course need\\to be encrypted ).\\\\Your whitelist would be populated from the social network as your client\\discovered new identit ...\\\\",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.4295,
+    "input_tokens": 224,
+    "output_tokens": 3,
+    "cost": 9.44e-05
+  },
+  {
+    "input": "E-mail scam targets police chief Wiltshire Police warns about \"phishing\" after its fraud squad chief was targeted.",
+    "predicted": "world",
+    "actual": "science_tech",
+    "correct": 0,
+    "latency": 0.4111,
+    "input_tokens": 71,
+    "output_tokens": 1,
+    "cost": 3e-05
+  },
+  {
+    "input": "Card fraud unit nets 36,000 cards In its first two years, the UK's dedicated card fraud unit, has recovered 36,000 stolen cards and 171 arrests - and estimates it saved 65m.",
+    "predicted": "business",
+    "actual": "science_tech",
+    "correct": 0,
+    "latency": 0.4169,
+    "input_tokens": 91,
+    "output_tokens": 1,
+    "cost": 3.8e-05
+  },
+  {
+    "input": "Group to Propose New High-Speed Wireless Format  LOS ANGELES (Reuters) - A group of technology companies  including Texas Instruments Inc. &lt;TXN.N&gt;, STMicroelectronics  &lt;STM.PA&gt; and Broadcom Corp. &lt;BRCM.O&gt;, on Thursday said they  will propose a new wireless networking standard up to 10 times  the speed of the current generation.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.5992,
+    "input_tokens": 134,
+    "output_tokens": 3,
+    "cost": 5.84e-05
+  },
+  {
+    "input": "Apple Launches Graphics Software, Video Bundle  LOS ANGELES (Reuters) - Apple Computer Inc.&lt;AAPL.O&gt; on  Tuesday began shipping a new program designed to let users  create real-time motion graphics and unveiled a discount  video-editing software bundle featuring its flagship Final Cut  Pro software.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.5093,
+    "input_tokens": 111,
+    "output_tokens": 3,
+    "cost": 4.92e-05
+  },
+  {
+    "input": "Dutch Retailer Beats Apple to Local Download Market  AMSTERDAM (Reuters) - Free Record Shop, a Dutch music  retail chain, beat Apple Computer Inc. to market on Tuesday  with the launch of a new download service in Europe's latest  battleground for digital song services.",
+    "predicted": "business",
+    "actual": "science_tech",
+    "correct": 0,
+    "latency": 0.7972,
+    "input_tokens": 105,
+    "output_tokens": 1,
+    "cost": 4.36e-05
+  },
+  {
+    "input": "Super ant colony hits Australia A giant 100km colony of ants  which has been discovered in Melbourne, Australia, could threaten local insect species.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.3242,
+    "input_tokens": 77,
+    "output_tokens": 3,
+    "cost": 3.56e-05
+  },
+  {
+    "input": "Socialites unite dolphin groups Dolphin groups, or \"pods\", rely on socialites to keep them from collapsing, scientists claim.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.3823,
+    "input_tokens": 73,
+    "output_tokens": 3,
+    "cost": 3.4e-05
+  },
+  {
+    "input": "Teenage T. rex's monster growth Tyrannosaurus rex achieved its massive size due to an enormous growth spurt during its adolescent years.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.4808,
+    "input_tokens": 77,
+    "output_tokens": 3,
+    "cost": 3.56e-05
+  },
+  {
+    "input": "Scientists Discover Ganymede has a Lumpy Interior Jet Propulsion Lab -- Scientists have discovered irregular lumps beneath the icy surface of Jupiter's largest moon, Ganymede. These irregular masses may be rock formations, supported by Ganymede's icy shell for billions of years...",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.3213,
+    "input_tokens": 103,
+    "output_tokens": 3,
+    "cost": 4.6e-05
+  },
+  {
+    "input": "Mars Rovers Relay Images Through Mars Express European Space Agency -- ESAs Mars Express has relayed pictures from one of NASA's Mars rovers for the first time, as part of a set of interplanetary networking demonstrations.     The demonstrations pave the way for future Mars missions to draw on joint interplanetary networking capabilities...",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.3444,
+    "input_tokens": 113,
+    "output_tokens": 3,
+    "cost": 5e-05
+  },
+  {
+    "input": "Rocking the Cradle of Life When did life begin? One evidential clue stems from the fossil records in Western Australia, although whether these layered sediments are biological or chemical has spawned a spirited debate. Oxford researcher, Nicola McLoughlin, describes some of the issues in contention.",
+    "predicted": "science_tech",
+    "actual": "science_tech",
+    "correct": 1,
+    "latency": 0.5314,
+    "input_tokens": 105,
+    "output_tokens": 3,
+    "cost": 4.68e-05
+  },
+  {
+    "input": "Storage, servers bruise HP earnings update Earnings per share rise compared with a year ago, but company misses analysts' expectations by a long shot.",
+    "predicted": "business",
+    "actual": "science_tech",
+    "correct": 0,
+    "latency": 0.4731,
+    "input_tokens": 77,
+    "output_tokens": 1,
+    "cost": 3.24e-05
+  }
+]
