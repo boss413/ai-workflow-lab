@@ -1,14 +1,16 @@
 """
 models/gemini_adapter.py
 
-Google Gemini model adapter. Implements BaseModel using the google-generativeai SDK.
-API key is read from the GEMINI_API_KEY environment variable.
+Google Gemini model adapter using the google-genai SDK (current).
+Replaces the deprecated google-generativeai package.
+
+Install: pip install google-genai
+API key: GEMINI_API_KEY environment variable.
 
 Confidence method: self_report
-  Gemini does not expose token log-probabilities via the standard API.
-  When confidence is requested, the prompt is extended to ask the model
-  to append a CONFIDENCE: <0-100> score. Same approach and caveats as
-  the Anthropic adapter — treat as a soft routing signal only.
+  Gemini does not expose token log-probabilities. When confidence is
+  requested the prompt is extended to ask for a CONFIDENCE: <0-100> score.
+  Treat as a soft routing signal only, not a calibrated probability.
 """
 
 from __future__ import annotations
@@ -23,13 +25,13 @@ from models.base_model import BaseModel, ModelResponse
 logger = logging.getLogger(__name__)
 
 _COST_PER_1K: dict[str, dict[str, float]] = {
-    "gemini-2.5-pro":        {"input": 0.00125,  "output": 0.010},
-    "gemini-2.5-flash":      {"input": 0.000075, "output": 0.0003},
-    "gemini-2.0-flash":      {"input": 0.0001,   "output": 0.0004},
-    "gemini-2.0-flash-lite": {"input": 0.000075, "output": 0.0003},
-    "gemini-1.5-pro":        {"input": 0.00125,  "output": 0.005},
-    "gemini-1.5-flash":      {"input": 0.000075, "output": 0.0003},
-    "gemini-1.5-flash-8b":   {"input": 0.0000375,"output": 0.00015},
+    "gemini-2.5-pro":        {"input": 0.00125,   "output": 0.010},
+    "gemini-2.5-flash":      {"input": 0.0000375, "output": 0.00015},
+    "gemini-2.0-flash":      {"input": 0.0001,    "output": 0.0004},
+    "gemini-2.0-flash-lite": {"input": 0.000075,  "output": 0.0003},
+    "gemini-1.5-pro":        {"input": 0.00125,   "output": 0.005},
+    "gemini-1.5-flash":      {"input": 0.000075,  "output": 0.0003},
+    "gemini-1.5-flash-8b":   {"input": 0.0000375, "output": 0.00015},
 }
 
 _DEFAULT_COST: dict[str, float] = {"input": 0.00125, "output": 0.005}
@@ -40,6 +42,11 @@ _CONFIDENCE_INSTRUCTION = (
     "CONFIDENCE: <integer 0-100>"
 )
 _CONFIDENCE_RE = re.compile(r"CONFIDENCE:\s*(\d+)", re.IGNORECASE)
+
+# finish_reason values that mean the response was blocked, not a real error
+# finish_reason can be an int or a FinishReason enum depending on SDK version.
+# Compare by name so both representations work.
+_BLOCKED_FINISH_REASON_NAMES = {"SAFETY", "RECITATION", "OTHER", "PROHIBITED_CONTENT"}
 
 
 def _calculate_cost(model: str, input_tokens: int, output_tokens: int) -> float:
@@ -56,18 +63,46 @@ def _parse_self_report(text: str) -> tuple[str, float | None]:
     return label, round(score / 100, 4)
 
 
+def _extract_text_safe(response: Any) -> str | None:
+    """
+    Safely extract text from a Gemini response.
+
+    Returns None if the response was blocked (finish_reason 2/3/4)
+    rather than raising, so the caller can handle it gracefully.
+    """
+    try:
+        candidate = response.candidates[0]
+        finish_reason = getattr(candidate, "finish_reason", None)
+        # finish_reason may be an int OR a FinishReason enum — compare by name
+        reason_name = (
+            finish_reason.name if hasattr(finish_reason, "name")
+            else str(finish_reason).upper()
+        )
+        if reason_name in _BLOCKED_FINISH_REASON_NAMES:
+            logger.debug("Gemini response blocked, finish_reason=%s", finish_reason)
+            return None
+        # MAX_TOKENS: gemini-2.5-flash uses this as its normal stop reason.
+        # Only warn if there are genuinely no parts (truly empty output).
+        # Parts may be empty even without a safety block
+        parts = getattr(candidate.content, "parts", [])
+        if not parts:
+            return ""
+        return "".join(getattr(p, "text", "") for p in parts)
+    except (AttributeError, IndexError):
+        return None
+
+
 class GeminiAdapter(BaseModel):
     """
-    Adapter for Google Gemini models via the google-generativeai SDK.
+    Adapter for Google Gemini models via the google-genai SDK.
 
     Args:
         model_name:        Gemini model identifier (e.g. 'gemini-2.5-flash').
-        temperature:       Default sampling temperature (overridden by generation_params).
-        max_tokens:        Default max output tokens (overridden by generation_params).
-        top_p:             Default top_p (overridden by generation_params).
-        report_confidence: If True, append confidence instruction to prompt and
-                           parse the self-reported score. Defaults to True.
-        api_key:           Optional API key override. Defaults to GEMINI_API_KEY env var.
+        temperature:       Default sampling temperature.
+        max_tokens:        Default max output tokens.
+        top_p:             Default top_p.
+        report_confidence: If True, append confidence instruction to prompt.
+        api_key:           Optional override. Defaults to GEMINI_API_KEY env var.
     """
 
     def __init__(
@@ -76,7 +111,7 @@ class GeminiAdapter(BaseModel):
         temperature: float = 0.0,
         max_tokens: int | None = 1024,
         top_p: float = 1.0,
-        report_confidence: bool = True,
+        report_confidence: bool = False,
         api_key: str | None = None,
     ) -> None:
         self._model_name = model_name
@@ -109,17 +144,17 @@ class GeminiAdapter(BaseModel):
             contents = contents + _CONFIDENCE_INSTRUCTION
 
         params = self._resolve_params(generation_params)
-        client = self._build_client(system_instruction)
-        generation_config = self._build_generation_config(params)
+        client = self._build_client()
+        config = self._build_config(params, system_instruction)
 
-        logger.info("Calling Gemini model='%s' report_confidence=%s.",
-                    self._model_name, self.report_confidence)
+        logger.info("Calling Gemini model='%s'.", self._model_name)
 
         try:
             with self._measure_latency() as timer:
-                response = client.generate_content(
+                response = client.models.generate_content(
+                    model=self._model_name,
                     contents=contents,
-                    generation_config=generation_config,
+                    config=config,
                 )
         except Exception as exc:
             raise RuntimeError(
@@ -138,50 +173,80 @@ class GeminiAdapter(BaseModel):
             raise ValueError("prompt['user'] must not be empty.")
         return prompt["user"], prompt.get("system", "")
 
+    # Gemini tokenizes differently from OpenAI — "science_tech" alone is 4+ tokens.
+    # Apply a hard floor regardless of what generation_config.yaml sets.
+    # gemini-2.5-flash is a thinking model: max_tokens covers the reasoning
+    # budget + visible output combined. The visible label gets only a fraction.
+    # Use a generous floor so the actual text output is never truncated.
+    _MIN_TOKENS = 512           # thinking budget + label
+    _MIN_TOKENS_WITH_CONF = 600 # thinking budget + label + CONFIDENCE line
+
     def _resolve_params(self, generation_params: dict[str, Any] | None) -> dict[str, Any]:
+        base_max = (
+            generation_params.get("max_tokens", self.max_tokens)
+            if generation_params else self.max_tokens
+        )
+        if base_max is not None:
+            floor = self._MIN_TOKENS_WITH_CONF if self.report_confidence else self._MIN_TOKENS
+            base_max = max(base_max, floor)
         return {
             "temperature": generation_params.get("temperature", self.temperature)
                            if generation_params else self.temperature,
-            "top_p": generation_params.get("top_p", self.top_p)
-                     if generation_params else self.top_p,
-            "max_tokens": generation_params.get("max_tokens", self.max_tokens)
-                          if generation_params else self.max_tokens,
+            "top_p":       generation_params.get("top_p", self.top_p)
+                           if generation_params else self.top_p,
+            "max_tokens":  base_max,
         }
 
-    def _build_client(self, system_instruction: str = "") -> Any:
+    def _build_client(self) -> Any:
+        """Instantiate the google-genai client. Separated for easy mocking."""
         try:
-            import google.generativeai as genai  # noqa: PLC0415
+            import google.genai as genai  # noqa: PLC0415
         except ImportError as exc:
             raise RuntimeError(
-                "The 'google-generativeai' library is required."
+                "The 'google-genai' library is required. "
+                "Install with: pip install google-genai"
             ) from exc
-        genai.configure(api_key=self._api_key)
-        kwargs: dict[str, Any] = {}
-        if system_instruction:
-            kwargs["system_instruction"] = system_instruction
-        return genai.GenerativeModel(self._model_name, **kwargs)
+        return genai.Client(api_key=self._api_key)
 
-    def _build_generation_config(self, params: dict[str, Any]) -> Any:
+    def _build_config(self, params: dict[str, Any], system_instruction: str = "") -> Any:
+        """Build GenerateContentConfig. Separated for easy mocking."""
         try:
-            import google.generativeai as genai  # noqa: PLC0415
+            from google.genai import types  # noqa: PLC0415
         except ImportError as exc:
-            raise RuntimeError("The 'google-generativeai' library is required.") from exc
+            raise RuntimeError("The 'google-genai' library is required.") from exc
+
         kwargs: dict[str, Any] = {
             "temperature": params["temperature"],
-            "top_p": params["top_p"],
+            "top_p":       params["top_p"],
         }
         if params.get("max_tokens"):
             kwargs["max_output_tokens"] = params["max_tokens"]
-        return genai.GenerationConfig(**kwargs)
+        if system_instruction:
+            kwargs["system_instruction"] = system_instruction
+
+        return types.GenerateContentConfig(**kwargs)
 
     def _parse_response(self, response: Any, latency: float) -> ModelResponse:
+        # Token counts — usage_metadata present even on blocked responses
         try:
-            raw_text = response.text if response.text is not None else ""
             usage = response.usage_metadata
-            input_tokens = int(usage.prompt_token_count or 0)
-            output_tokens = int(usage.candidates_token_count or 0)
-        except (AttributeError, TypeError) as exc:
-            raise RuntimeError(f"Unexpected Gemini response structure: {exc}") from exc
+            input_tokens = int(getattr(usage, "prompt_token_count", None) or 0)
+            output_tokens = int(getattr(usage, "candidates_token_count", None) or 0)
+        except (AttributeError, TypeError):
+            input_tokens, output_tokens = 0, 0
+
+        raw_text = _extract_text_safe(response)
+
+        if raw_text is None:
+            # Blocked response — return empty string, no confidence
+            # Caller sees an empty prediction which will score as incorrect
+            # but does NOT raise, so the run continues.
+            logger.debug("Gemini blocked response for model='%s'.", self._model_name)
+            return ModelResponse(
+                text="", input_tokens=input_tokens, output_tokens=output_tokens,
+                cost=_calculate_cost(self._model_name, input_tokens, output_tokens),
+                latency=latency, confidence=None, confidence_source=None,
+            )
 
         if self.report_confidence:
             text, confidence = _parse_self_report(raw_text)
@@ -195,11 +260,7 @@ class GeminiAdapter(BaseModel):
             self._model_name, input_tokens, output_tokens, cost, latency, confidence,
         )
         return ModelResponse(
-            text=text,
-            input_tokens=input_tokens,
-            output_tokens=output_tokens,
-            cost=cost,
-            latency=latency,
-            confidence=confidence,
+            text=text, input_tokens=input_tokens, output_tokens=output_tokens,
+            cost=cost, latency=latency, confidence=confidence,
             confidence_source=confidence_source,
         )

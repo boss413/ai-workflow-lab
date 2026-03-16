@@ -1,0 +1,189 @@
+{
+  "task": "classification",
+  "timestamp": "20260316_154857",
+  "sample_size": 20,
+  "seed": 42,
+  "generation_params": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 16
+  },
+  "categories": [
+    "world",
+    "sports",
+    "business",
+    "science_tech"
+  ],
+  "summaries": [
+    {
+      "alias": "gemini_flash",
+      "model_id": "google:gemini-2.5-flash",
+      "cost_tier": "low",
+      "samples": 13,
+      "accuracy": 0.5385,
+      "avg_latency": 0.6761,
+      "total_cost": 0.000132,
+      "avg_confidence": null
+    }
+  ],
+  "results": {
+    "gemini_flash": [
+      {
+        "input": "CRM Best Practices: TCO and ROI (NewsFactor) NewsFactor - With CRM projects costing millions, even in some mid-size companies, it is no surprise CFOs are leading the charge to be sure the most important projects are first, that they are justified, and that they actually deliver on their forecast benefits.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.7991,
+        "input_tokens": 148,
+        "output_tokens": 1,
+        "cost": 1.14e-05
+      },
+      {
+        "input": "Intel calls for Internet overhaul The Net needs a new layer of abilities that will deal with imminent problems of capacity, security and reliability, Intel's CTO says.",
+        "predicted": "science",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.6481,
+        "input_tokens": 116,
+        "output_tokens": 1,
+        "cost": 8.999999999999999e-06
+      },
+      {
+        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.7105,
+        "input_tokens": 143,
+        "output_tokens": 1,
+        "cost": 1.1024999999999999e-05
+      },
+      {
+        "input": "Peruvian Maoist trial thrown into chaos The first hearing in the re-trial of former leaders of Peru #39;s Shining Path guerrilla group has ended in chaos. The judge suspended the hearing after the group #39;s founder, Abimael Guzman, and his 15 co-defendants ",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.6289,
+        "input_tokens": 149,
+        "output_tokens": 1,
+        "cost": 1.1475e-05
+      },
+      {
+        "input": "Japan GDP Hurts Yen, U.S. Trade Data Eyed  LONDON (Reuters) - The yen fell against other major  currencies on Friday on a surprising downward revision to  Japanese growth, while the dollar hit three-week lows against  the euro on worries about the U.S. trade deficit.",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.7569,
+        "input_tokens": 146,
+        "output_tokens": 1,
+        "cost": 1.1249999999999999e-05
+      },
+      {
+        "input": "Taiwan votes on leaner parliament A vote is due to be held in Taiwan on plans to halve the number of seats in the island's famously heated legislature.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.6069,
+        "input_tokens": 115,
+        "output_tokens": 1,
+        "cost": 8.924999999999998e-06
+      },
+      {
+        "input": "Shuttle to launch without repair kit? The CAIB report urged NASA to develop a way for astronauts during flight to inspect the orbiter and make emergency repairs to its insulation tiles and reinforced carbon-carbon panels.",
+        "predicted": "science",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.6752,
+        "input_tokens": 126,
+        "output_tokens": 1,
+        "cost": 9.749999999999998e-06
+      },
+      {
+        "input": "Singapore Airlines confirms sale of Air NZ stake SYDNEY - Singapore Airlines announced on Tuesday the sale of its  quot;non-core quot; 6.3 stake in Air New Zealand, ending a four-year strategic investment in the now government-owned carrier.",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.713,
+        "input_tokens": 138,
+        "output_tokens": 1,
+        "cost": 1.065e-05
+      },
+      {
+        "input": "FA Plan New United-Arsenal Talks The Football Association are set to wait until after the conclusion of any disciplinary action against Arsene Wenger before trying to broker a peace summit between Arsenal and Manchester United.",
+        "predicted": "sports",
+        "actual": "sports",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.674,
+        "input_tokens": 123,
+        "output_tokens": 1,
+        "cost": 9.525e-06
+      },
+      {
+        "input": "Lonely whale #39;s song remains a mystery A lone whale with a voice unlike any other has been wandering the Pacific for the past 12 years. Marine biologist Mary Ann Daher of Woods Hole Oceanographic Institution in Massachusetts, US, and her colleagues ",
+        "predicted": "science",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.5321,
+        "input_tokens": 137,
+        "output_tokens": 1,
+        "cost": 1.0575e-05
+      },
+      {
+        "input": "Thrashers Owner Fined The NHL fined one of the owners of the Thrashers \\$250,000 on Tuesday for saying the league would use replacement players next year if a new collective bargaining agreement isn't reached.",
+        "predicted": "sports",
+        "actual": "sports",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.6162,
+        "input_tokens": 133,
+        "output_tokens": 1,
+        "cost": 1.0274999999999999e-05
+      },
+      {
+        "input": "Briefly: Top McAfee exec to step down roundup Plus:  Samsung to put hard drives in phones...IDC says external disk storage up...Lawmakers to vote on spyware, piracy bills.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.6748,
+        "input_tokens": 122,
+        "output_tokens": 1,
+        "cost": 9.449999999999998e-06
+      },
+      {
+        "input": "Virgin Mobile growth prospects disappoint Richard Branson #39;s Virgin Mobile has forecast substantially higher earnings and margins, but disappointing predictions for service revenue ",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.7534,
+        "input_tokens": 113,
+        "output_tokens": 1,
+        "cost": 8.775e-06
+      }
+    ]
+  }
+}

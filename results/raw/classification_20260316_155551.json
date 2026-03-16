@@ -1,0 +1,19 @@
+{
+  "task": "classification",
+  "timestamp": "20260316_155551",
+  "sample_size": 20,
+  "seed": 42,
+  "generation_params": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 16
+  },
+  "categories": [
+    "world",
+    "sports",
+    "business",
+    "science_tech"
+  ],
+  "summaries": [],
+  "results": {}
+}

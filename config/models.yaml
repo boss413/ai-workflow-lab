@@ -36,7 +36,7 @@ models:
     provider: openai
     model_name: gpt-4o
     cost_tier: medium
-    enabled: true
+    enabled: false
     strengths:
       - classification
       - reasoning
@@ -46,17 +46,26 @@ models:
     provider: openai
     model_name: gpt-4o-mini
     cost_tier: low
-    enabled: true
+    enabled: false
     strengths:
       - classification
       - extraction
 
   # ── Anthropic ─────────────────────────────────────────────────────────────
+  claude_opus:
+    provider: anthropic
+    model_name: claude-4-6-opus-20250801
+    cost_tier: high
+    enabled: true
+    strengths:
+      - coding
+      - building agents
+
   claude_sonnet:
     provider: anthropic
-    model_name: claude-3-5-sonnet-20241022
+    model_name: claude-sonnet-4-5
     cost_tier: medium
-    enabled: false
+    enabled: true
     strengths:
       - summarization
       - generation
@@ -64,9 +73,9 @@ models:
 
   claude_haiku:
     provider: anthropic
-    model_name: claude-3-5-haiku-20241022
+    model_name: claude-haiku-4-5-20251001
     cost_tier: low
-    enabled: false
+    enabled: true
     strengths:
       - classification
       - extraction
@@ -75,9 +84,9 @@ models:
   # ── Google ────────────────────────────────────────────────────────────────
   gemini_flash:
     provider: google
-    model_name: gemini-2.0-flash
+    model_name: gemini-2.5-flash
     cost_tier: low
-    enabled: false
+    enabled: true
     strengths:
       - classification
       - extraction
@@ -85,9 +94,9 @@ models:
 
   gemini_pro:
     provider: google
-    model_name: gemini-1.5-pro
+    model_name: gemini-2.5-pro
     cost_tier: medium
-    enabled: false
+    enabled: true
     strengths:
       - qa
       - summarization

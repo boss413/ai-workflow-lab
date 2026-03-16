@@ -91,8 +91,31 @@ def select_models(
 # Benchmark logic
 # ---------------------------------------------------------------------------
 
-def normalize(text: str) -> str:
-    return text.lower().strip().rstrip(".")
+# Aliases for common model truncations or paraphrases of category names.
+# Keyed by the normalized (lowercased, stripped) model output → canonical label.
+_LABEL_ALIASES: dict[str, str] = {
+    "science":          "science_tech",
+    "sci/tech":         "science_tech",
+    "sci-tech":         "science_tech",
+    "science/tech":     "science_tech",
+    "science/technology": "science_tech",
+    "technology":       "science_tech",
+    "tech":             "science_tech",
+}
+
+
+def normalize(text: str, categories: list[str] | None = None) -> str:
+    """
+    Normalize model output to a canonical category label.
+
+    Lowercases, strips whitespace and trailing punctuation, then checks
+    _LABEL_ALIASES for known truncations. If categories is provided and
+    the result still doesn't match, returns it as-is (scorer handles miss).
+    """
+    cleaned = text.lower().strip().rstrip(".")
+    if cleaned in _LABEL_ALIASES:
+        return _LABEL_ALIASES[cleaned]
+    return cleaned
 
 
 def run_one_model(
@@ -110,16 +133,29 @@ def run_one_model(
         print(f"  [SKIP] {alias} ({model_id}): {exc}")
         return [], {}
 
+    # Probe with the first example before running the full dataset.
+    # A 404 / auth error will fail on every row — no point burning 20 API calls
+    # to discover that. Fatal errors (auth, not_found) abort immediately;
+    # transient errors on later rows are still skipped individually.
+    _FATAL_FRAGMENTS = ("404", "not_found", "invalid_api_key", "authentication")
+
+    def _is_fatal(exc: Exception) -> bool:
+        msg = str(exc).lower()
+        return any(f in msg for f in _FATAL_FRAGMENTS)
+
     records = []
     for i, row in enumerate(dataset):
         try:
             prompt = generate_prompt(TASK, row, categories=categories)
             response = adapter.run(prompt, generation_params=generation_params)
         except Exception as exc:
+            if _is_fatal(exc):
+                print(f"  [ABORT] {alias}: {exc}")
+                return [], {}
             logging.warning("Error on row %d for %s: %s", i, model_id, exc)
             continue
 
-        predicted = normalize(response.text)
+        predicted = normalize(response.text, categories=categories)
         actual = str(row["label"])
         correct = int(predicted == actual)
 

@@ -13,7 +13,7 @@ defaults:
 # This prevents token budget from distorting latency and cost comparisons.
 tasks:
   classification:
-    max_tokens: 16       # single label output
+    max_tokens: 32       # single label output — 32 covers longest label across all providers
   extraction:
     max_tokens: 512      # structured JSON entity list
   summarization:
