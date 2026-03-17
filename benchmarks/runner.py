@@ -57,6 +57,10 @@ def _build_adapter(model_id: str) -> Any:
         from models.gemini_adapter import GeminiAdapter  # noqa: PLC0415
         return GeminiAdapter(model_name=model_name)
 
+    if provider == "ollama":
+        from models.ollama_adapter import OllamaAdapter  # noqa: PLC0415
+        return OllamaAdapter(model_name=model_name)
+
     raise ValueError(
         f"Unknown provider '{provider}' in model_id '{model_id}'. "
         f"Supported providers: openai, anthropic, google."

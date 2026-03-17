@@ -28,15 +28,20 @@ from models.base_model import BaseModel, ModelResponse
 logger = logging.getLogger(__name__)
 
 _COST_PER_1K: dict[str, dict[str, float]] = {
-    "claude-opus-4-5":            {"input": 0.015,   "output": 0.075},
+    # Claude 4.5 family
+    "claude-sonnet-4-5-20250929": {"input": 0.003,   "output": 0.015},
     "claude-sonnet-4-5":          {"input": 0.003,   "output": 0.015},
-    "claude-haiku-4-5":           {"input": 0.0008,  "output": 0.004},
+    "claude-haiku-4-5-20251001":  {"input": 0.001,   "output": 0.005},
+    "claude-haiku-4-5":           {"input": 0.001,   "output": 0.005},
+    # Claude 4 family
+    "claude-opus-4-6":            {"input": 0.005,   "output": 0.025},
+    "claude-opus-4-5":            {"input": 0.015,   "output": 0.075},
     "claude-opus-4":              {"input": 0.015,   "output": 0.075},
     "claude-sonnet-4":            {"input": 0.003,   "output": 0.015},
+    # Claude 3.x legacy
     "claude-3-5-sonnet-20241022": {"input": 0.003,   "output": 0.015},
     "claude-3-5-haiku-20241022":  {"input": 0.0008,  "output": 0.004},
     "claude-3-opus-20240229":     {"input": 0.015,   "output": 0.075},
-    "claude-3-sonnet-20240229":   {"input": 0.003,   "output": 0.015},
     "claude-3-haiku-20240307":    {"input": 0.00025, "output": 0.00125},
 }
 

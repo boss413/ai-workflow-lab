@@ -1,0 +1,273 @@
+{
+  "task": "classification",
+  "timestamp": "20260317_110133",
+  "sample_size": 20,
+  "seed": 42,
+  "generation_params": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 32
+  },
+  "categories": [
+    "world",
+    "sports",
+    "business",
+    "science_tech"
+  ],
+  "summaries": [
+    {
+      "alias": "gemini_pro",
+      "model_id": "google:gemini-2.5-pro",
+      "cost_tier": "medium",
+      "samples": 20,
+      "accuracy": 0.85,
+      "avg_latency": 9.4243,
+      "total_cost": 0.002973,
+      "avg_confidence": null
+    }
+  ],
+  "results": {
+    "gemini_pro": [
+      {
+        "input": "Israeli Soldiers Kill Palestinian Gunman in Gaza -Army (Reuters) Reuters - Israeli soldiers shot and killed a\\Palestinian gunman on Monday as he approached a military\\outpost near a Jewish settlement in the southern Gaza Strip, a\\military source said.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.0561,
+        "input_tokens": 111,
+        "output_tokens": 1,
+        "cost": 0.00014875
+      },
+      {
+        "input": "CRM Best Practices: TCO and ROI (NewsFactor) NewsFactor - With CRM projects costing millions, even in some mid-size companies, it is no surprise CFOs are leading the charge to be sure the most important projects are first, that they are justified, and that they actually deliver on their forecast benefits.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 7.9204,
+        "input_tokens": 124,
+        "output_tokens": 1,
+        "cost": 0.000165
+      },
+      {
+        "input": "Intel calls for Internet overhaul The Net needs a new layer of abilities that will deal with imminent problems of capacity, security and reliability, Intel's CTO says.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 20.6434,
+        "input_tokens": 92,
+        "output_tokens": 3,
+        "cost": 0.00014500000000000003
+      },
+      {
+        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 7.7794,
+        "input_tokens": 119,
+        "output_tokens": 1,
+        "cost": 0.00015875
+      },
+      {
+        "input": "Peruvian Maoist trial thrown into chaos The first hearing in the re-trial of former leaders of Peru #39;s Shining Path guerrilla group has ended in chaos. The judge suspended the hearing after the group #39;s founder, Abimael Guzman, and his 15 co-defendants ",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.4783,
+        "input_tokens": 125,
+        "output_tokens": 1,
+        "cost": 0.00016625
+      },
+      {
+        "input": "Enron to Pay \\$321 Million in Pensions  HOUSTON (Reuters) - Enron Corp. will pay \\$321 million from  the proceeds of its sale of its pipeline arm to fund pension  plans for thousands of former employees, a government pension  agency said on Monday.",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 7.306,
+        "input_tokens": 121,
+        "output_tokens": 1,
+        "cost": 0.00016125000000000002
+      },
+      {
+        "input": "Post-Olympic Greece tightens purse, sells family silver to fill budget holes (AFP) AFP - Squeezed by a swelling public deficit and debt following last month's costly Athens Olympics, the Greek government said it would cut defence spending and boost revenue by 1.5 billion euros (1.84 billion dollars) in privatisation receipts.",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 18.0902,
+        "input_tokens": 131,
+        "output_tokens": 1,
+        "cost": 0.00017375000000000002
+      },
+      {
+        "input": "Court imposes lawyer on Milosevic The UN tribunal in The Hague says it will impose a defence lawyer on former Yugoslav leader Slobodan Milosevic.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 13.5291,
+        "input_tokens": 90,
+        "output_tokens": 1,
+        "cost": 0.0001225
+      },
+      {
+        "input": "Japan GDP Hurts Yen, U.S. Trade Data Eyed  LONDON (Reuters) - The yen fell against other major  currencies on Friday on a surprising downward revision to  Japanese growth, while the dollar hit three-week lows against  the euro on worries about the U.S. trade deficit.",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 7.0244,
+        "input_tokens": 122,
+        "output_tokens": 1,
+        "cost": 0.0001625
+      },
+      {
+        "input": "Taiwan votes on leaner parliament A vote is due to be held in Taiwan on plans to halve the number of seats in the island's famously heated legislature.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 10.4313,
+        "input_tokens": 91,
+        "output_tokens": 1,
+        "cost": 0.00012375
+      },
+      {
+        "input": "Shuttle to launch without repair kit? The CAIB report urged NASA to develop a way for astronauts during flight to inspect the orbiter and make emergency repairs to its insulation tiles and reinforced carbon-carbon panels.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.2008,
+        "input_tokens": 102,
+        "output_tokens": 3,
+        "cost": 0.0001575
+      },
+      {
+        "input": "Study: Mobile phone use increases brain tumor risk But researchers say data based on analogue phone usage may not yield same results as digital phone usage.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 7.2863,
+        "input_tokens": 88,
+        "output_tokens": 3,
+        "cost": 0.00014000000000000001
+      },
+      {
+        "input": "Singapore Airlines confirms sale of Air NZ stake SYDNEY - Singapore Airlines announced on Tuesday the sale of its  quot;non-core quot; 6.3 stake in Air New Zealand, ending a four-year strategic investment in the now government-owned carrier.",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 11.8681,
+        "input_tokens": 114,
+        "output_tokens": 1,
+        "cost": 0.00015250000000000002
+      },
+      {
+        "input": "Yahoo offers personal search Yahoo launched a new service designed to let users of its search engine save and manage their query results for accessing later and sharing with others, the company said Tuesday.",
+        "predicted": "",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 11.7087,
+        "input_tokens": 96,
+        "output_tokens": 0,
+        "cost": 0.00011999999999999999
+      },
+      {
+        "input": "A PC in the toaster? How mod! photos There's also room in the humidor and the Darth Vader helmet. Take a gander at some strange and wonderful creations.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 7.2853,
+        "input_tokens": 96,
+        "output_tokens": 3,
+        "cost": 0.00015
+      },
+      {
+        "input": "FA Plan New United-Arsenal Talks The Football Association are set to wait until after the conclusion of any disciplinary action against Arsene Wenger before trying to broker a peace summit between Arsenal and Manchester United.",
+        "predicted": "sports",
+        "actual": "sports",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 9.3532,
+        "input_tokens": 99,
+        "output_tokens": 1,
+        "cost": 0.00013375
+      },
+      {
+        "input": "Lonely whale #39;s song remains a mystery A lone whale with a voice unlike any other has been wandering the Pacific for the past 12 years. Marine biologist Mary Ann Daher of Woods Hole Oceanographic Institution in Massachusetts, US, and her colleagues ",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.8766,
+        "input_tokens": 113,
+        "output_tokens": 3,
+        "cost": 0.00017125000000000002
+      },
+      {
+        "input": "Thrashers Owner Fined The NHL fined one of the owners of the Thrashers \\$250,000 on Tuesday for saying the league would use replacement players next year if a new collective bargaining agreement isn't reached.",
+        "predicted": "sports",
+        "actual": "sports",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 8.6335,
+        "input_tokens": 109,
+        "output_tokens": 1,
+        "cost": 0.00014625000000000003
+      },
+      {
+        "input": "Briefly: Top McAfee exec to step down roundup Plus:  Samsung to put hard drives in phones...IDC says external disk storage up...Lawmakers to vote on spyware, piracy bills.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 9.8146,
+        "input_tokens": 98,
+        "output_tokens": 3,
+        "cost": 0.0001525
+      },
+      {
+        "input": "Virgin Mobile growth prospects disappoint Richard Branson #39;s Virgin Mobile has forecast substantially higher earnings and margins, but disappointing predictions for service revenue ",
+        "predicted": "business",
+        "actual": "business",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.1995,
+        "input_tokens": 89,
+        "output_tokens": 1,
+        "cost": 0.00012124999999999999
+      }
+    ]
+  }
+}

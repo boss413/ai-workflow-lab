@@ -1,0 +1,309 @@
+{
+  "task": "classification",
+  "timestamp": "20260317_101223",
+  "sample_size": 5,
+  "seed": 42,
+  "generation_params": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 32
+  },
+  "categories": [
+    "world",
+    "sports",
+    "business",
+    "science_tech"
+  ],
+  "summaries": [
+    {
+      "alias": "gpt41_mini",
+      "model_id": "openai:gpt-4.1-mini",
+      "cost_tier": "low",
+      "samples": 5,
+      "accuracy": 0.6,
+      "avg_latency": 2.409,
+      "total_cost": 0.000237,
+      "avg_confidence": 0.9987
+    },
+    {
+      "alias": "gpt4o_mini",
+      "model_id": "openai:gpt-4o-mini",
+      "cost_tier": "low",
+      "samples": 5,
+      "accuracy": 0.6,
+      "avg_latency": 0.847,
+      "total_cost": 8.9e-05,
+      "avg_confidence": 1.0
+    },
+    {
+      "alias": "claude_haiku",
+      "model_id": "anthropic:claude-haiku-4-5-20251001",
+      "cost_tier": "low",
+      "samples": 5,
+      "accuracy": 0.6,
+      "avg_latency": 1.0638,
+      "total_cost": 0.001003,
+      "avg_confidence": 0.872
+    },
+    {
+      "alias": "gemini_flash",
+      "model_id": "google:gemini-2.5-flash",
+      "cost_tier": "low",
+      "samples": 5,
+      "accuracy": 0.6,
+      "avg_latency": 2.0032,
+      "total_cost": 3.2e-05,
+      "avg_confidence": null
+    }
+  ],
+  "results": {
+    "gpt41_mini": [
+      {
+        "input": "Israeli Soldiers Kill Palestinian Gunman in Gaza -Army (Reuters) Reuters - Israeli soldiers shot and killed a\\Palestinian gunman on Monday as he approached a military\\outpost near a Jewish settlement in the southern Gaza Strip, a\\military source said.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 5.0457,
+        "input_tokens": 114,
+        "output_tokens": 1,
+        "cost": 4.72e-05
+      },
+      {
+        "input": "CRM Best Practices: TCO and ROI (NewsFactor) NewsFactor - With CRM projects costing millions, even in some mid-size companies, it is no surprise CFOs are leading the charge to be sure the most important projects are first, that they are justified, and that they actually deliver on their forecast benefits.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 2.2135,
+        "input_tokens": 122,
+        "output_tokens": 1,
+        "cost": 5.04e-05
+      },
+      {
+        "input": "Intel calls for Internet overhaul The Net needs a new layer of abilities that will deal with imminent problems of capacity, security and reliability, Intel's CTO says.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 1.9704,
+        "input_tokens": 90,
+        "output_tokens": 3,
+        "cost": 4.08e-05
+      },
+      {
+        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": 0.9933,
+        "confidence_source": "logprobs",
+        "latency": 1.5579,
+        "input_tokens": 118,
+        "output_tokens": 1,
+        "cost": 4.8799999999999994e-05
+      },
+      {
+        "input": "Peruvian Maoist trial thrown into chaos The first hearing in the re-trial of former leaders of Peru #39;s Shining Path guerrilla group has ended in chaos. The judge suspended the hearing after the group #39;s founder, Abimael Guzman, and his 15 co-defendants ",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 1.2573,
+        "input_tokens": 121,
+        "output_tokens": 1,
+        "cost": 5e-05
+      }
+    ],
+    "gpt4o_mini": [
+      {
+        "input": "Israeli Soldiers Kill Palestinian Gunman in Gaza -Army (Reuters) Reuters - Israeli soldiers shot and killed a\\Palestinian gunman on Monday as he approached a military\\outpost near a Jewish settlement in the southern Gaza Strip, a\\military source said.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 0.4711,
+        "input_tokens": 114,
+        "output_tokens": 1,
+        "cost": 1.7699999999999997e-05
+      },
+      {
+        "input": "CRM Best Practices: TCO and ROI (NewsFactor) NewsFactor - With CRM projects costing millions, even in some mid-size companies, it is no surprise CFOs are leading the charge to be sure the most important projects are first, that they are justified, and that they actually deliver on their forecast benefits.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 1.2622,
+        "input_tokens": 122,
+        "output_tokens": 1,
+        "cost": 1.8899999999999995e-05
+      },
+      {
+        "input": "Intel calls for Internet overhaul The Net needs a new layer of abilities that will deal with imminent problems of capacity, security and reliability, Intel's CTO says.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 0.4631,
+        "input_tokens": 90,
+        "output_tokens": 3,
+        "cost": 1.53e-05
+      },
+      {
+        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 0.8321,
+        "input_tokens": 118,
+        "output_tokens": 1,
+        "cost": 1.8299999999999998e-05
+      },
+      {
+        "input": "Peruvian Maoist trial thrown into chaos The first hearing in the re-trial of former leaders of Peru #39;s Shining Path guerrilla group has ended in chaos. The judge suspended the hearing after the group #39;s founder, Abimael Guzman, and his 15 co-defendants ",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": 1.0,
+        "confidence_source": "logprobs",
+        "latency": 1.2063,
+        "input_tokens": 121,
+        "output_tokens": 1,
+        "cost": 1.875e-05
+      }
+    ],
+    "claude_haiku": [
+      {
+        "input": "Israeli Soldiers Kill Palestinian Gunman in Gaza -Army (Reuters) Reuters - Israeli soldiers shot and killed a\\Palestinian gunman on Monday as he approached a military\\outpost near a Jewish settlement in the southern Gaza Strip, a\\military source said.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": 0.92,
+        "confidence_source": "self_report",
+        "latency": 0.8044,
+        "input_tokens": 141,
+        "output_tokens": 10,
+        "cost": 0.000191
+      },
+      {
+        "input": "CRM Best Practices: TCO and ROI (NewsFactor) NewsFactor - With CRM projects costing millions, even in some mid-size companies, it is no surprise CFOs are leading the charge to be sure the most important projects are first, that they are justified, and that they actually deliver on their forecast benefits.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": 0.92,
+        "confidence_source": "self_report",
+        "latency": 0.8476,
+        "input_tokens": 159,
+        "output_tokens": 10,
+        "cost": 0.000209
+      },
+      {
+        "input": "Intel calls for Internet overhaul The Net needs a new layer of abilities that will deal with imminent problems of capacity, security and reliability, Intel's CTO says.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": 0.75,
+        "confidence_source": "self_report",
+        "latency": 2.2214,
+        "input_tokens": 123,
+        "output_tokens": 12,
+        "cost": 0.000183
+      },
+      {
+        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": 0.85,
+        "confidence_source": "self_report",
+        "latency": 0.5723,
+        "input_tokens": 159,
+        "output_tokens": 10,
+        "cost": 0.000209
+      },
+      {
+        "input": "Peruvian Maoist trial thrown into chaos The first hearing in the re-trial of former leaders of Peru #39;s Shining Path guerrilla group has ended in chaos. The judge suspended the hearing after the group #39;s founder, Abimael Guzman, and his 15 co-defendants ",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": 0.92,
+        "confidence_source": "self_report",
+        "latency": 0.8735,
+        "input_tokens": 161,
+        "output_tokens": 10,
+        "cost": 0.00021100000000000003
+      }
+    ],
+    "gemini_flash": [
+      {
+        "input": "Israeli Soldiers Kill Palestinian Gunman in Gaza -Army (Reuters) Reuters - Israeli soldiers shot and killed a\\Palestinian gunman on Monday as he approached a military\\outpost near a Jewish settlement in the southern Gaza Strip, a\\military source said.",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.4537,
+        "input_tokens": 111,
+        "output_tokens": 1,
+        "cost": 5.662499999999999e-06
+      },
+      {
+        "input": "CRM Best Practices: TCO and ROI (NewsFactor) NewsFactor - With CRM projects costing millions, even in some mid-size companies, it is no surprise CFOs are leading the charge to be sure the most important projects are first, that they are justified, and that they actually deliver on their forecast benefits.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 2.1393,
+        "input_tokens": 124,
+        "output_tokens": 1,
+        "cost": 6.1499999999999996e-06
+      },
+      {
+        "input": "Intel calls for Internet overhaul The Net needs a new layer of abilities that will deal with imminent problems of capacity, security and reliability, Intel's CTO says.",
+        "predicted": "science_tech",
+        "actual": "science_tech",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 2.0555,
+        "input_tokens": 92,
+        "output_tokens": 3,
+        "cost": 7.95e-06
+      },
+      {
+        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+        "predicted": "business",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 2.5465,
+        "input_tokens": 119,
+        "output_tokens": 1,
+        "cost": 5.962499999999999e-06
+      },
+      {
+        "input": "Peruvian Maoist trial thrown into chaos The first hearing in the re-trial of former leaders of Peru #39;s Shining Path guerrilla group has ended in chaos. The judge suspended the hearing after the group #39;s founder, Abimael Guzman, and his 15 co-defendants ",
+        "predicted": "world",
+        "actual": "world",
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.8208,
+        "input_tokens": 125,
+        "output_tokens": 1,
+        "cost": 6.1875000000000005e-06
+      }
+    ]
+  }
+}

@@ -52,24 +52,18 @@ models:
       - extraction
 
   # ── Anthropic ─────────────────────────────────────────────────────────────
-  claude_opus:
-    provider: anthropic
-    model_name: claude-4-6-opus-20250801
-    cost_tier: high
-    enabled: true
-    strengths:
-      - coding
-      - building agents
-
   claude_sonnet:
     provider: anthropic
-    model_name: claude-sonnet-4-5
+    model_name: claude-sonnet-4-5-20250929
     cost_tier: medium
     enabled: true
     strengths:
       - summarization
       - generation
       - reasoning
+      - classification
+      - extraction
+      - qa
 
   claude_haiku:
     provider: anthropic
@@ -80,6 +74,46 @@ models:
       - classification
       - extraction
       - qa
+
+  claude_opus_45:
+    provider: anthropic
+    model_name: claude-opus-4-5-20251101
+    cost_tier: high
+    enabled: false
+    strengths:
+      - reasoning
+      - generation
+      - summarization
+      - qa
+      - classification
+      - extraction
+
+  claude_opus_46:
+    provider: anthropic
+    model_name: claude-opus-4-6
+    cost_tier: high
+    enabled: false
+    strengths:
+      - reasoning
+      - generation
+      - summarization
+      - qa
+      - classification
+      - extraction
+
+  # ── Ollama (local) ───────────────────────────────────────────────────────
+  mistral_7b:
+    provider: ollama
+    model_name: mistral:latest
+    cost_tier: low
+    enabled: true
+    strengths:
+      - classification
+      - extraction
+      - qa
+      - reasoning
+      - summarization
+      - generation
 
   # ── Google ────────────────────────────────────────────────────────────────
   gemini_flash:
@@ -101,3 +135,4 @@ models:
       - qa
       - summarization
       - reasoning
+      - generation

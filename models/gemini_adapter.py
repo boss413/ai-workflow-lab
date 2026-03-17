@@ -25,13 +25,13 @@ from models.base_model import BaseModel, ModelResponse
 logger = logging.getLogger(__name__)
 
 _COST_PER_1K: dict[str, dict[str, float]] = {
+    # Gemini 2.5 family (current)
     "gemini-2.5-pro":        {"input": 0.00125,   "output": 0.010},
-    "gemini-2.5-flash":      {"input": 0.0000375, "output": 0.00015},
+    "gemini-2.5-flash":      {"input": 0.0000375, "output": 0.00150},
+    "gemini-2.5-flash-lite": {"input": 0.000010,  "output": 0.000040},
+    # Gemini 2.0 legacy
     "gemini-2.0-flash":      {"input": 0.0001,    "output": 0.0004},
     "gemini-2.0-flash-lite": {"input": 0.000075,  "output": 0.0003},
-    "gemini-1.5-pro":        {"input": 0.00125,   "output": 0.005},
-    "gemini-1.5-flash":      {"input": 0.000075,  "output": 0.0003},
-    "gemini-1.5-flash-8b":   {"input": 0.0000375, "output": 0.00015},
 }
 
 _DEFAULT_COST: dict[str, float] = {"input": 0.00125, "output": 0.005}
@@ -149,17 +149,37 @@ class GeminiAdapter(BaseModel):
 
         logger.info("Calling Gemini model='%s'.", self._model_name)
 
-        try:
-            with self._measure_latency() as timer:
-                response = client.models.generate_content(
-                    model=self._model_name,
-                    contents=contents,
-                    config=config,
-                )
-        except Exception as exc:
+        # Retry on transient errors (503 high demand, 429 rate limit)
+        # with exponential backoff. Fatal errors (400, 404) raise immediately.
+        _RETRYABLE = ("503", "429", "unavailable", "resource_exhausted")
+        last_exc: Exception | None = None
+        for attempt in range(3):
+            try:
+                with self._measure_latency() as timer:
+                    response = client.models.generate_content(
+                        model=self._model_name,
+                        contents=contents,
+                        config=config,
+                    )
+                break  # success
+            except Exception as exc:
+                last_exc = exc
+                msg = str(exc).lower()
+                if any(f in msg for f in _RETRYABLE):
+                    wait = 2 ** attempt  # 1s, 2s, 4s
+                    logger.warning(
+                        "Gemini transient error (attempt %d/3), retrying in %ds: %s",
+                        attempt + 1, wait, exc,
+                    )
+                    import time; time.sleep(wait)
+                else:
+                    raise RuntimeError(
+                        f"Gemini API call failed for model '{self._model_name}': {exc}"
+                    ) from exc
+        else:
             raise RuntimeError(
-                f"Gemini API call failed for model '{self._model_name}': {exc}"
-            ) from exc
+                f"Gemini API call failed after 3 attempts for model '{self._model_name}': {last_exc}"
+            ) from last_exc
 
         return self._parse_response(response, timer.elapsed)
 
@@ -175,11 +195,11 @@ class GeminiAdapter(BaseModel):
 
     # Gemini tokenizes differently from OpenAI — "science_tech" alone is 4+ tokens.
     # Apply a hard floor regardless of what generation_config.yaml sets.
-    # gemini-2.5-flash is a thinking model: max_tokens covers the reasoning
-    # budget + visible output combined. The visible label gets only a fraction.
-    # Use a generous floor so the actual text output is never truncated.
-    _MIN_TOKENS = 512           # thinking budget + label
-    _MIN_TOKENS_WITH_CONF = 600 # thinking budget + label + CONFIDENCE line
+    # Both gemini-2.5-flash and gemini-2.5-pro are thinking models: max_tokens
+    # covers the reasoning budget + visible output combined. Pro uses a much
+    # larger reasoning budget than flash — use a generous floor for both.
+    _MIN_TOKENS = 1024          # thinking budget + label (pro needs ~800+ for reasoning)
+    _MIN_TOKENS_WITH_CONF = 1100 # thinking budget + label + CONFIDENCE line
 
     def _resolve_params(self, generation_params: dict[str, Any] | None) -> dict[str, Any]:
         base_max = (

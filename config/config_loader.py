@@ -13,7 +13,7 @@ import yaml
 logger = logging.getLogger(__name__)
 
 VALID_TASKS = {"classification", "extraction", "summarization", "qa", "reasoning", "generation"}
-VALID_PROVIDERS = {"openai", "anthropic", "google"}
+VALID_PROVIDERS = {"openai", "anthropic", "google", "ollama"}
 VALID_COST_TIERS = {"low", "medium", "high"}
 REQUIRED_TASK_FIELDS = {"dataset", "sample_size"}
 
