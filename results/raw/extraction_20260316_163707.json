@@ -1,0 +1,965 @@
+{
+  "task": "extraction",
+  "timestamp": "20260316_163707",
+  "sample_size": 10,
+  "seed": 42,
+  "generation_params": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512
+  },
+  "summaries": [
+    {
+      "alias": "gpt41_mini",
+      "model_id": "openai:gpt-4.1-mini",
+      "cost_tier": "low",
+      "samples": 10,
+      "accuracy": 0.8,
+      "avg_f1": 0.73,
+      "avg_precision": 0.725,
+      "avg_recall": 0.7357,
+      "avg_latency": 1.0797,
+      "total_cost": 0.000848
+    },
+    {
+      "alias": "claude_haiku",
+      "model_id": "anthropic:claude-haiku-4-5-20251001",
+      "cost_tier": "low",
+      "samples": 10,
+      "accuracy": 1.0,
+      "avg_f1": 0.8214,
+      "avg_precision": 0.7714,
+      "avg_recall": 0.9214,
+      "avg_latency": 0.7435,
+      "total_cost": 0.011199
+    },
+    {
+      "alias": "gemini_flash",
+      "model_id": "google:gemini-2.5-flash",
+      "cost_tier": "low",
+      "samples": 10,
+      "accuracy": 0.9,
+      "avg_f1": 0.8214,
+      "avg_precision": 0.8214,
+      "avg_recall": 0.8214,
+      "avg_latency": 1.2828,
+      "total_cost": 9.5e-05
+    }
+  ],
+  "results": {
+    "gpt41_mini": [
+      {
+        "input": "\" I thought it would be useful to have him back and he said he would be available .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.982,
+        "confidence_source": "logprobs",
+        "latency": 1.132,
+        "input_tokens": 107,
+        "output_tokens": 17,
+        "cost": 7.000000000000001e-05
+      },
+      {
+        "input": "207 Clinton Whitelaw 70 70 67 , Mark Cayeux ( Zimbabwe )",
+        "predicted_json": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.6225,
+        "confidence_source": "logprobs",
+        "latency": 1.9076,
+        "input_tokens": 107,
+        "output_tokens": 31,
+        "cost": 9.240000000000001e-05
+      },
+      {
+        "input": "SOCCER - JAPAN GET LUCKY WIN , CHINA IN SURPRISE DEFEAT .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Japan",
+            "China"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "CHINA"
+          ],
+          "organizations": [],
+          "locations": [
+            "JAPAN"
+          ]
+        },
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "correct": 1,
+        "confidence": 0.9627,
+        "confidence_source": "logprobs",
+        "latency": 1.2699,
+        "input_tokens": 109,
+        "output_tokens": 22,
+        "cost": 7.88e-05
+      },
+      {
+        "input": "( ( Chicago newsdesk 312-408-8720 ) )",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.9968,
+        "confidence_source": "logprobs",
+        "latency": 0.9972,
+        "input_tokens": 102,
+        "output_tokens": 19,
+        "cost": 7.12e-05
+      },
+      {
+        "input": "Three FBI agents who testified against Rashid during the trial , held at Korydallos prison , said they had ample evidence against Rashid for a bomb planted on a Pan American plane in Brazil in 1982 and a mid-air bomb blast on a TWA airliner approaching Athens in 1986 which killed four U.S. citizens .",
+        "predicted_json": {
+          "persons": [
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "Pan American",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos prison",
+            "Brazil",
+            "Athens",
+            "U.S."
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Rashid",
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos",
+            "Brazil",
+            "Athens",
+            "U.S."
+          ]
+        },
+        "precision": 0.75,
+        "recall": 0.8571,
+        "f1": 0.8,
+        "correct": 1,
+        "confidence": 0.7773,
+        "confidence_source": "logprobs",
+        "latency": 1.3415,
+        "input_tokens": 157,
+        "output_tokens": 49,
+        "cost": 0.0001412
+      },
+      {
+        "input": "OMAHA 1996-12-06",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.9047,
+        "confidence_source": "logprobs",
+        "latency": 0.7164,
+        "input_tokens": 98,
+        "output_tokens": 20,
+        "cost": 7.12e-05
+      },
+      {
+        "input": "\" I think Homestake could come in as a white knight , but how much is someone willing to come in above the Newmont number .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.9526,
+        "confidence_source": "logprobs",
+        "latency": 0.9679,
+        "input_tokens": 117,
+        "output_tokens": 25,
+        "cost": 8.68e-05
+      },
+      {
+        "input": "SAN FRANCISCO 10 3 0 325 198",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "SAN FRANCISCO"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "SAN FRANCISCO"
+          ],
+          "locations": []
+        },
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "correct": 0,
+        "confidence": 0.7773,
+        "confidence_source": "logprobs",
+        "latency": 0.8389,
+        "input_tokens": 102,
+        "output_tokens": 21,
+        "cost": 7.44e-05
+      },
+      {
+        "input": "1. Alexis Blanc ( France ) 238.36 points",
+        "predicted_json": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.8176,
+        "confidence_source": "logprobs",
+        "latency": 0.9636,
+        "input_tokens": 101,
+        "output_tokens": 27,
+        "cost": 8.360000000000001e-05
+      },
+      {
+        "input": "Newport 45 Dunvant 22",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Newport",
+            "Dunvant"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Newport",
+            "Dunvant"
+          ],
+          "locations": []
+        },
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "correct": 0,
+        "confidence": 0.8176,
+        "confidence_source": "logprobs",
+        "latency": 0.6622,
+        "input_tokens": 97,
+        "output_tokens": 25,
+        "cost": 7.88e-05
+      }
+    ],
+    "claude_haiku": [
+      {
+        "input": "\" I thought it would be useful to have him back and he said he would be available .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.85,
+        "confidence_source": "self_report",
+        "latency": 0.6639,
+        "input_tokens": 143,
+        "output_tokens": 35,
+        "cost": 0.000954
+      },
+      {
+        "input": "207 Clinton Whitelaw 70 70 67 , Mark Cayeux ( Zimbabwe )",
+        "predicted_json": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.85,
+        "confidence_source": "self_report",
+        "latency": 0.7827,
+        "input_tokens": 146,
+        "output_tokens": 49,
+        "cost": 0.001173
+      },
+      {
+        "input": "SOCCER - JAPAN GET LUCKY WIN , CHINA IN SURPRISE DEFEAT .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "JAPAN",
+            "CHINA"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "CHINA"
+          ],
+          "organizations": [],
+          "locations": [
+            "JAPAN"
+          ]
+        },
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "correct": 1,
+        "confidence": 0.95,
+        "confidence_source": "self_report",
+        "latency": 0.7,
+        "input_tokens": 142,
+        "output_tokens": 42,
+        "cost": 0.001056
+      },
+      {
+        "input": "( ( Chicago newsdesk 312-408-8720 ) )",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Chicago newsdesk"
+          ],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667,
+        "correct": 1,
+        "confidence": 0.75,
+        "confidence_source": "self_report",
+        "latency": 0.8507,
+        "input_tokens": 140,
+        "output_tokens": 42,
+        "cost": 0.0010500000000000002
+      },
+      {
+        "input": "Three FBI agents who testified against Rashid during the trial , held at Korydallos prison , said they had ample evidence against Rashid for a bomb planted on a Pan American plane in Brazil in 1982 and a mid-air bomb blast on a TWA airliner approaching Athens in 1986 which killed four U.S. citizens .",
+        "predicted_json": {
+          "persons": [
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "Pan American",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos prison",
+            "Brazil",
+            "Athens"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Rashid",
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos",
+            "Brazil",
+            "Athens",
+            "U.S."
+          ]
+        },
+        "precision": 0.7143,
+        "recall": 0.7143,
+        "f1": 0.7143,
+        "correct": 1,
+        "confidence": 0.85,
+        "confidence_source": "self_report",
+        "latency": 0.7967,
+        "input_tokens": 202,
+        "output_tokens": 62,
+        "cost": 0.001536
+      },
+      {
+        "input": "OMAHA 1996-12-06",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.85,
+        "confidence_source": "self_report",
+        "latency": 0.6141,
+        "input_tokens": 134,
+        "output_tokens": 39,
+        "cost": 0.000987
+      },
+      {
+        "input": "\" I think Homestake could come in as a white knight , but how much is someone willing to come in above the Newmont number .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.85,
+        "confidence_source": "self_report",
+        "latency": 0.6592,
+        "input_tokens": 154,
+        "output_tokens": 44,
+        "cost": 0.001122
+      },
+      {
+        "input": "SAN FRANCISCO 10 3 0 325 198",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "SAN FRANCISCO"
+          ],
+          "locations": [
+            "SAN FRANCISCO"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "SAN FRANCISCO"
+          ],
+          "locations": []
+        },
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667,
+        "correct": 1,
+        "confidence": 0.45,
+        "confidence_source": "self_report",
+        "latency": 0.6074,
+        "input_tokens": 138,
+        "output_tokens": 45,
+        "cost": 0.001089
+      },
+      {
+        "input": "1. Alexis Blanc ( France ) 238.36 points",
+        "predicted_json": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": 0.95,
+        "confidence_source": "self_report",
+        "latency": 1.0624,
+        "input_tokens": 140,
+        "output_tokens": 43,
+        "cost": 0.001065
+      },
+      {
+        "input": "Newport 45 Dunvant 22",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Newport",
+            "Dunvant"
+          ],
+          "locations": [
+            "Newport",
+            "Dunvant"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Newport",
+            "Dunvant"
+          ],
+          "locations": []
+        },
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667,
+        "correct": 1,
+        "confidence": 0.45,
+        "confidence_source": "self_report",
+        "latency": 0.6979,
+        "input_tokens": 134,
+        "output_tokens": 51,
+        "cost": 0.001167
+      }
+    ],
+    "gemini_flash": [
+      {
+        "input": "\" I thought it would be useful to have him back and he said he would be available .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.3062,
+        "input_tokens": 111,
+        "output_tokens": 26,
+        "cost": 8.0625e-06
+      },
+      {
+        "input": "207 Clinton Whitelaw 70 70 67 , Mark Cayeux ( Zimbabwe )",
+        "predicted_json": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.377,
+        "input_tokens": 116,
+        "output_tokens": 53,
+        "cost": 1.2299999999999999e-05
+      },
+      {
+        "input": "SOCCER - JAPAN GET LUCKY WIN , CHINA IN SURPRISE DEFEAT .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "JAPAN",
+            "CHINA"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "CHINA"
+          ],
+          "organizations": [],
+          "locations": [
+            "JAPAN"
+          ]
+        },
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.0782,
+        "input_tokens": 110,
+        "output_tokens": 32,
+        "cost": 8.924999999999998e-06
+      },
+      {
+        "input": "( ( Chicago newsdesk 312-408-8720 ) )",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.368,
+        "input_tokens": 112,
+        "output_tokens": 28,
+        "cost": 8.4e-06
+      },
+      {
+        "input": "Three FBI agents who testified against Rashid during the trial , held at Korydallos prison , said they had ample evidence against Rashid for a bomb planted on a Pan American plane in Brazil in 1982 and a mid-air bomb blast on a TWA airliner approaching Athens in 1986 which killed four U.S. citizens .",
+        "predicted_json": {
+          "persons": [
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "Pan American",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos prison",
+            "Brazil",
+            "Athens"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Rashid",
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos",
+            "Brazil",
+            "Athens",
+            "U.S."
+          ]
+        },
+        "precision": 0.7143,
+        "recall": 0.7143,
+        "f1": 0.7143,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 2.1747,
+        "input_tokens": 165,
+        "output_tokens": 52,
+        "cost": 1.39875e-05
+      },
+      {
+        "input": "OMAHA 1996-12-06",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.0192,
+        "input_tokens": 105,
+        "output_tokens": 29,
+        "cost": 8.2875e-06
+      },
+      {
+        "input": "\" I think Homestake could come in as a white knight , but how much is someone willing to come in above the Newmont number .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.0295,
+        "input_tokens": 121,
+        "output_tokens": 34,
+        "cost": 9.6375e-06
+      },
+      {
+        "input": "SAN FRANCISCO 10 3 0 325 198",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "SAN FRANCISCO"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "SAN FRANCISCO"
+          ],
+          "locations": []
+        },
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.9355,
+        "input_tokens": 109,
+        "output_tokens": 29,
+        "cost": 8.4375e-06
+      },
+      {
+        "input": "1. Alexis Blanc ( France ) 238.36 points",
+        "predicted_json": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 0.9923,
+        "input_tokens": 107,
+        "output_tokens": 31,
+        "cost": 8.6625e-06
+      },
+      {
+        "input": "Newport 45 Dunvant 22",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Newport",
+            "Dunvant"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Newport",
+            "Dunvant"
+          ],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 1.5475,
+        "input_tokens": 102,
+        "output_tokens": 33,
+        "cost": 8.775e-06
+      }
+    ]
+  }
+}

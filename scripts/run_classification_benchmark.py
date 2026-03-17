@@ -137,7 +137,7 @@ def run_one_model(
     # A 404 / auth error will fail on every row — no point burning 20 API calls
     # to discover that. Fatal errors (auth, not_found) abort immediately;
     # transient errors on later rows are still skipped individually.
-    _FATAL_FRAGMENTS = ("404", "not_found", "invalid_api_key", "authentication")
+    _FATAL_FRAGMENTS = ("404", "400", "not_found", "invalid_api_key", "invalid_request", "authentication")
 
     def _is_fatal(exc: Exception) -> bool:
         msg = str(exc).lower()

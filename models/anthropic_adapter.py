@@ -134,11 +134,13 @@ class AnthropicAdapter(BaseModel):
         logger.info("Calling Anthropic model='%s' report_confidence=%s.",
                     self._model_name, self.report_confidence)
 
+        # Newer Claude models (claude-haiku-4-5+) reject requests that specify
+        # both temperature and top_p simultaneously. Use temperature only —
+        # top_p=1.0 (the default) is a no-op alongside temperature anyway.
         api_kwargs: dict[str, Any] = dict(
             model=self._model_name,
             max_tokens=params["max_tokens"],
             temperature=params["temperature"],
-            top_p=params["top_p"],
             messages=[{"role": "user", "content": user_text}],
         )
         if system_text:

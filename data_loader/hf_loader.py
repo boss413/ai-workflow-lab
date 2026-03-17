@@ -118,8 +118,14 @@ def _normalize_record(
     input_field: str,
     label_field: str,
     label_map: dict[int, str] | None,
+    extra_fields: list[str] | None = None,
 ) -> dict[str, Any]:
-    """Extract input and label from a raw record, applying label_map if present."""
+    """
+    Extract input, label, and any extra fields from a raw record.
+
+    extra_fields: additional field names to include verbatim in the output
+    (e.g. 'question' for SQuAD QA tasks).
+    """
     raw_input = raw.get(input_field, "")
     raw_label = raw.get(label_field)
 
@@ -131,11 +137,17 @@ def _normalize_record(
     if label_map and isinstance(raw_label, int):
         raw_label = label_map.get(raw_label, str(raw_label))
 
-    return {
+    record: dict[str, Any] = {
         "input": str(raw_input),
         "label": raw_label,
         "metadata": {},
     }
+
+    for field in (extra_fields or []):
+        if field in raw:
+            record[field] = raw[field]
+
+    return record
 
 
 # ---------------------------------------------------------------------------
@@ -194,8 +206,10 @@ def load_task_dataset(
     if label_map:
         label_map = {int(k): str(v) for k, v in label_map.items()}
 
+    extra_fields = config.get("extra_fields", [])
+
     normalized = [
-        _normalize_record(raw, input_field, label_field, label_map)
+        _normalize_record(raw, input_field, label_field, label_map, extra_fields)
         for raw in raw_records
     ]
 

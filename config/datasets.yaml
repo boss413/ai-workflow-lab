@@ -36,7 +36,7 @@ classification:
 
 extraction:
   source: huggingface
-  hf_name: conll2003
+  hf_name: BramVanroy/conll2003
   hf_split: test
   task: extraction
   input_field: tokens
@@ -57,6 +57,8 @@ qa:
   task: qa
   input_field: context
   label_field: answers
+  extra_fields:
+    - question
 
 reasoning:
   source: huggingface
