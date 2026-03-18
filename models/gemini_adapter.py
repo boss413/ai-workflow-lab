@@ -195,11 +195,16 @@ class GeminiAdapter(BaseModel):
 
     # Gemini tokenizes differently from OpenAI — "science_tech" alone is 4+ tokens.
     # Apply a hard floor regardless of what generation_config.yaml sets.
-    # Both gemini-2.5-flash and gemini-2.5-pro are thinking models: max_tokens
-    # covers the reasoning budget + visible output combined. Pro uses a much
-    # larger reasoning budget than flash — use a generous floor for both.
-    _MIN_TOKENS = 1024          # thinking budget + label (pro needs ~800+ for reasoning)
-    _MIN_TOKENS_WITH_CONF = 1100 # thinking budget + label + CONFIDENCE line
+    # gemini-2.5-pro and gemini-2.5-flash are thinking models: max_tokens covers
+    # the internal reasoning chain + visible output combined. Pro's reasoning
+    # chain is significantly longer than flash's (~2000-4000 tokens for complex
+    # tasks), so we use a model-aware floor. Flash needs ~512, pro needs ~4096.
+    _MIN_TOKENS_PRO   = 4096   # pro reasoning budget + output
+    _MIN_TOKENS_FLASH = 512    # flash reasoning budget + output
+    _CONF_EXTRA       = 100    # extra headroom for CONFIDENCE line
+
+    # Models considered "pro-tier" thinking models needing the larger floor
+    _PRO_MODELS = {"gemini-2.5-pro", "gemini-2.5-pro-preview"}
 
     def _resolve_params(self, generation_params: dict[str, Any] | None) -> dict[str, Any]:
         base_max = (
@@ -207,8 +212,11 @@ class GeminiAdapter(BaseModel):
             if generation_params else self.max_tokens
         )
         if base_max is not None:
-            floor = self._MIN_TOKENS_WITH_CONF if self.report_confidence else self._MIN_TOKENS
-            base_max = max(base_max, floor)
+            is_pro = any(p in self._model_name for p in self._PRO_MODELS)
+            base_floor = self._MIN_TOKENS_PRO if is_pro else self._MIN_TOKENS_FLASH
+            if self.report_confidence:
+                base_floor += self._CONF_EXTRA
+            base_max = max(base_max, base_floor)
         return {
             "temperature": generation_params.get("temperature", self.temperature)
                            if generation_params else self.temperature,

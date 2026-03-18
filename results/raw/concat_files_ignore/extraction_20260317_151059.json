@@ -1,0 +1,624 @@
+{
+  "task": "extraction",
+  "timestamp": "20260317_151059",
+  "sample_size": 20,
+  "seed": 42,
+  "generation_params": {
+    "temperature": 0,
+    "top_p": 1,
+    "max_tokens": 512
+  },
+  "summaries": [
+    {
+      "alias": "gemini_pro",
+      "model_id": "google:gemini-2.5-pro",
+      "cost_tier": "medium",
+      "samples": 20,
+      "accuracy": 0.9,
+      "avg_f1": 0.8174,
+      "avg_precision": 0.7941,
+      "avg_recall": 0.8607,
+      "avg_latency": 5.7478,
+      "total_cost": 0.011356
+    }
+  ],
+  "results": {
+    "gemini_pro": [
+      {
+        "input": "\" I thought it would be useful to have him back and he said he would be available .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.4117,
+        "input_tokens": 111,
+        "output_tokens": 26,
+        "cost": 0.00039875000000000007
+      },
+      {
+        "input": "207 Clinton Whitelaw 70 70 67 , Mark Cayeux ( Zimbabwe )",
+        "predicted_json": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Clinton Whitelaw",
+            "Mark Cayeux"
+          ],
+          "organizations": [],
+          "locations": [
+            "Zimbabwe"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.9027,
+        "input_tokens": 116,
+        "output_tokens": 53,
+        "cost": 0.000675
+      },
+      {
+        "input": "SOCCER - JAPAN GET LUCKY WIN , CHINA IN SURPRISE DEFEAT .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "JAPAN",
+            "CHINA"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "CHINA"
+          ],
+          "organizations": [],
+          "locations": [
+            "JAPAN"
+          ]
+        },
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.0238,
+        "input_tokens": 110,
+        "output_tokens": 40,
+        "cost": 0.0005375000000000001
+      },
+      {
+        "input": "( ( Chicago newsdesk 312-408-8720 ) )",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Chicago newsdesk"
+          ],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Chicago"
+          ]
+        },
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.4254,
+        "input_tokens": 112,
+        "output_tokens": 44,
+        "cost": 0.0005800000000000001
+      },
+      {
+        "input": "Three FBI agents who testified against Rashid during the trial , held at Korydallos prison , said they had ample evidence against Rashid for a bomb planted on a Pan American plane in Brazil in 1982 and a mid-air bomb blast on a TWA airliner approaching Athens in 1986 which killed four U.S. citizens .",
+        "predicted_json": {
+          "persons": [
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "Pan American",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos prison",
+            "Brazil",
+            "Athens"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Rashid",
+            "Rashid"
+          ],
+          "organizations": [
+            "FBI",
+            "TWA"
+          ],
+          "locations": [
+            "Korydallos",
+            "Brazil",
+            "Athens",
+            "U.S."
+          ]
+        },
+        "precision": 0.7143,
+        "recall": 0.7143,
+        "f1": 0.7143,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 3.539,
+        "input_tokens": 165,
+        "output_tokens": 78,
+        "cost": 0.0009862500000000001
+      },
+      {
+        "input": "OMAHA 1996-12-06",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "OMAHA"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.2702,
+        "input_tokens": 105,
+        "output_tokens": 35,
+        "cost": 0.00048125000000000007
+      },
+      {
+        "input": "\" I think Homestake could come in as a white knight , but how much is someone willing to come in above the Newmont number .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Homestake",
+            "Newmont"
+          ],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.7322,
+        "input_tokens": 121,
+        "output_tokens": 42,
+        "cost": 0.00057125
+      },
+      {
+        "input": "SAN FRANCISCO 10 3 0 325 198",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "SAN FRANCISCO"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "SAN FRANCISCO"
+          ],
+          "locations": []
+        },
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.0226,
+        "input_tokens": 109,
+        "output_tokens": 35,
+        "cost": 0.0004862500000000001
+      },
+      {
+        "input": "1. Alexis Blanc ( France ) 238.36 points",
+        "predicted_json": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Alexis Blanc"
+          ],
+          "organizations": [],
+          "locations": [
+            "France"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.3125,
+        "input_tokens": 107,
+        "output_tokens": 43,
+        "cost": 0.00056375
+      },
+      {
+        "input": "Newport 45 Dunvant 22",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Newport",
+            "Dunvant"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "Newport",
+            "Dunvant"
+          ],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 8.6032,
+        "input_tokens": 102,
+        "output_tokens": 41,
+        "cost": 0.0005375000000000001
+      },
+      {
+        "input": "If approached by a stray dog , children should be taught to stand still with fists folded underneath the neck , elbows in , and gaze forward until the dog goes away .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 4.8206,
+        "input_tokens": 125,
+        "output_tokens": 26,
+        "cost": 0.00041625
+      },
+      {
+        "input": "Texas / w Okla fed cattle market thin at $ 67 - USDA .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "USDA"
+          ],
+          "locations": [
+            "Texas",
+            "Okla"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "USDA"
+          ],
+          "locations": [
+            "Texas",
+            "Okla"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.5681,
+        "input_tokens": 108,
+        "output_tokens": 48,
+        "cost": 0.000615
+      },
+      {
+        "input": "New York timecharter fixtures - Dec 6 .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "New York"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "New York"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 4.5734,
+        "input_tokens": 103,
+        "output_tokens": 35,
+        "cost": 0.00047875
+      },
+      {
+        "input": "Britain sets conditions to clear American alliance .",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Britain",
+            "American"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": [
+            "Britain"
+          ]
+        },
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6667,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 6.3722,
+        "input_tokens": 100,
+        "output_tokens": 39,
+        "cost": 0.000515
+      },
+      {
+        "input": "Group B",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "Group B"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [],
+          "locations": []
+        },
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.0075,
+        "input_tokens": 94,
+        "output_tokens": 35,
+        "cost": 0.00046750000000000003
+      },
+      {
+        "input": "NY RANGERS AT TORONTO",
+        "predicted_json": {
+          "persons": [],
+          "organizations": [
+            "NY RANGERS"
+          ],
+          "locations": [
+            "TORONTO"
+          ]
+        },
+        "actual_entities": {
+          "persons": [],
+          "organizations": [
+            "NY RANGERS"
+          ],
+          "locations": [
+            "TORONTO"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.2561,
+        "input_tokens": 99,
+        "output_tokens": 46,
+        "cost": 0.00058375
+      },
+      {
+        "input": "Indonesia 's Belo leaves for Nobel award ceremony .",
+        "predicted_json": {
+          "persons": [
+            "Belo"
+          ],
+          "organizations": [
+            "Nobel"
+          ],
+          "locations": [
+            "Indonesia"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Belo"
+          ],
+          "organizations": [],
+          "locations": [
+            "Indonesia"
+          ]
+        },
+        "precision": 0.6667,
+        "recall": 1.0,
+        "f1": 0.8,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 8.3208,
+        "input_tokens": 102,
+        "output_tokens": 52,
+        "cost": 0.0006475
+      },
+      {
+        "input": "Don Rieck , president of the National Animal Control Association , said aggressiveness in dogs was related more to gender than breed and a male dog that had not been neutered was three times more likely to bite than an unspayed female .",
+        "predicted_json": {
+          "persons": [
+            "Don Rieck"
+          ],
+          "organizations": [
+            "National Animal Control Association"
+          ],
+          "locations": []
+        },
+        "actual_entities": {
+          "persons": [
+            "Don Rieck"
+          ],
+          "organizations": [
+            "National Animal Control Association"
+          ],
+          "locations": []
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.8163,
+        "input_tokens": 139,
+        "output_tokens": 47,
+        "cost": 0.00064375
+      },
+      {
+        "input": "20. Alexandra Meissnitzer ( Austria ) 27",
+        "predicted_json": {
+          "persons": [
+            "Alexandra Meissnitzer"
+          ],
+          "organizations": [],
+          "locations": [
+            "Austria"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Alexandra Meissnitzer"
+          ],
+          "organizations": [],
+          "locations": [
+            "Austria"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 4.6808,
+        "input_tokens": 106,
+        "output_tokens": 46,
+        "cost": 0.0005925
+      },
+      {
+        "input": "2. Pavel Muslimov ( Russia ) 82",
+        "predicted_json": {
+          "persons": [
+            "Pavel Muslimov"
+          ],
+          "organizations": [],
+          "locations": [
+            "Russia"
+          ]
+        },
+        "actual_entities": {
+          "persons": [
+            "Pavel Muslimov"
+          ],
+          "organizations": [],
+          "locations": [
+            "Russia"
+          ]
+        },
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "correct": 1,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 5.2968,
+        "input_tokens": 103,
+        "output_tokens": 45,
+        "cost": 0.00057875
+      }
+    ]
+  }
+}

@@ -16,14 +16,14 @@
   ],
   "summaries": [
     {
-      "alias": "gemini_pro",
-      "model_id": "google:gemini-2.5-pro",
-      "cost_tier": "medium",
+      "alias": "gpt41_mini",
+      "model_id": "openai:gpt-4.1-mini",
+      "cost_tier": "low",
       "samples": 20,
-      "accuracy": 0.9,
-      "avg_latency": 6.9894,
-      "total_cost": 0.003002,
-      "avg_confidence": null
+      "accuracy": 0.8,
+      "avg_latency": 0.7225,
+      "total_cost": 0.000889,
+      "avg_confidence": 0.9786
     },
     {
       "alias": "gpt41",
@@ -46,16 +46,6 @@
       "avg_confidence": 0.93
     },
     {
-      "alias": "gpt41_mini",
-      "model_id": "openai:gpt-4.1-mini",
-      "cost_tier": "low",
-      "samples": 20,
-      "accuracy": 0.8,
-      "avg_latency": 0.7225,
-      "total_cost": 0.000889,
-      "avg_confidence": 0.9786
-    },
-    {
       "alias": "claude_haiku",
       "model_id": "anthropic:claude-haiku-4-5-20251001",
       "cost_tier": "low",
@@ -64,6 +54,16 @@
       "avg_latency": 1.1955,
       "total_cost": 0.003835,
       "avg_confidence": 0.8535
+    },
+    {
+      "alias": "mistral_7b",
+      "model_id": "ollama:mistral:latest",
+      "cost_tier": "low",
+      "samples": 20,
+      "accuracy": 0.65,
+      "avg_latency": 2.4845,
+      "total_cost": 0.0,
+      "avg_confidence": null
     },
     {
       "alias": "gemini_flash",
@@ -76,13 +76,13 @@
       "avg_confidence": null
     },
     {
-      "alias": "mistral_7b",
-      "model_id": "ollama:mistral:latest",
-      "cost_tier": "low",
-      "samples": 20,
-      "accuracy": 0.65,
-      "avg_latency": 2.4845,
-      "total_cost": 0.0,
+      "alias": "gemini_pro",
+      "model_id": "google:gemini-2.5-pro",
+      "cost_tier": "medium",
+      "samples": 19,
+      "accuracy": 0.2105,
+      "avg_latency": 13.7394,
+      "total_cost": 0.002593,
       "avg_confidence": null
     }
   ],
@@ -1547,82 +1547,82 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 5.1729,
+        "latency": 9.6762,
         "input_tokens": 111,
         "output_tokens": 1,
         "cost": 0.00014875
       },
       {
         "input": "CRM Best Practices: TCO and ROI (NewsFactor) NewsFactor - With CRM projects costing millions, even in some mid-size companies, it is no surprise CFOs are leading the charge to be sure the most important projects are first, that they are justified, and that they actually deliver on their forecast benefits.",
-        "predicted": "business",
+        "predicted": "",
         "actual": "science_tech",
         "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.1175,
+        "latency": 8.2854,
         "input_tokens": 124,
-        "output_tokens": 1,
-        "cost": 0.000165
+        "output_tokens": 0,
+        "cost": 0.000155
       },
       {
         "input": "Intel calls for Internet overhaul The Net needs a new layer of abilities that will deal with imminent problems of capacity, security and reliability, Intel's CTO says.",
-        "predicted": "science_tech",
-        "actual": "science_tech",
-        "correct": 1,
-        "confidence": null,
-        "confidence_source": null,
-        "latency": 7.3799,
-        "input_tokens": 92,
-        "output_tokens": 3,
-        "cost": 0.00014500000000000003
-      },
-      {
-        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
-        "predicted": "business",
+        "predicted": "",
         "actual": "science_tech",
         "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.5561,
+        "latency": 26.0204,
+        "input_tokens": 92,
+        "output_tokens": 0,
+        "cost": 0.000115
+      },
+      {
+        "input": "Qualcomm: A  quot;Wireless Intel quot;? Qualcomm began life in 1985 in a very unremarkable way -- in founder Irwin Jacobs #39; den. The space was small and crowded. The founding crew consisted of seven people, who were enthusiastic but low key.",
+        "predicted": "",
+        "actual": "science_tech",
+        "correct": 0,
+        "confidence": null,
+        "confidence_source": null,
+        "latency": 11.595,
         "input_tokens": 119,
-        "output_tokens": 1,
-        "cost": 0.00015875
+        "output_tokens": 0,
+        "cost": 0.00014874999999999998
       },
       {
         "input": "Peruvian Maoist trial thrown into chaos The first hearing in the re-trial of former leaders of Peru #39;s Shining Path guerrilla group has ended in chaos. The judge suspended the hearing after the group #39;s founder, Abimael Guzman, and his 15 co-defendants ",
-        "predicted": "world",
+        "predicted": "",
         "actual": "world",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 5.8696,
+        "latency": 6.6835,
         "input_tokens": 125,
-        "output_tokens": 1,
-        "cost": 0.00016625
+        "output_tokens": 0,
+        "cost": 0.00015625
       },
       {
         "input": "Enron to Pay \\$321 Million in Pensions  HOUSTON (Reuters) - Enron Corp. will pay \\$321 million from  the proceeds of its sale of its pipeline arm to fund pension  plans for thousands of former employees, a government pension  agency said on Monday.",
-        "predicted": "business",
+        "predicted": "",
         "actual": "business",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.7513,
+        "latency": 18.8498,
         "input_tokens": 121,
-        "output_tokens": 1,
-        "cost": 0.00016125000000000002
+        "output_tokens": 0,
+        "cost": 0.00015125
       },
       {
         "input": "Post-Olympic Greece tightens purse, sells family silver to fill budget holes (AFP) AFP - Squeezed by a swelling public deficit and debt following last month's costly Athens Olympics, the Greek government said it would cut defence spending and boost revenue by 1.5 billion euros (1.84 billion dollars) in privatisation receipts.",
-        "predicted": "business",
+        "predicted": "",
         "actual": "business",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 11.7534,
+        "latency": 11.7155,
         "input_tokens": 131,
-        "output_tokens": 1,
-        "cost": 0.00017375000000000002
+        "output_tokens": 0,
+        "cost": 0.00016375
       },
       {
         "input": "Court imposes lawyer on Milosevic The UN tribunal in The Hague says it will impose a defence lawyer on former Yugoslav leader Slobodan Milosevic.",
@@ -1631,22 +1631,22 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 4.8397,
+        "latency": 9.1905,
         "input_tokens": 90,
         "output_tokens": 1,
         "cost": 0.0001225
       },
       {
         "input": "Japan GDP Hurts Yen, U.S. Trade Data Eyed  LONDON (Reuters) - The yen fell against other major  currencies on Friday on a surprising downward revision to  Japanese growth, while the dollar hit three-week lows against  the euro on worries about the U.S. trade deficit.",
-        "predicted": "business",
+        "predicted": "",
         "actual": "business",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.2898,
+        "latency": 10.4271,
         "input_tokens": 122,
-        "output_tokens": 1,
-        "cost": 0.0001625
+        "output_tokens": 0,
+        "cost": 0.0001525
       },
       {
         "input": "Taiwan votes on leaner parliament A vote is due to be held in Taiwan on plans to halve the number of seats in the island's famously heated legislature.",
@@ -1655,7 +1655,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 5.8512,
+        "latency": 9.7878,
         "input_tokens": 91,
         "output_tokens": 1,
         "cost": 0.00012375
@@ -1667,118 +1667,106 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 5.1755,
+        "latency": 7.3612,
         "input_tokens": 102,
-        "output_tokens": 3,
-        "cost": 0.0001575
-      },
-      {
-        "input": "Study: Mobile phone use increases brain tumor risk But researchers say data based on analogue phone usage may not yield same results as digital phone usage.",
-        "predicted": "science_tech",
-        "actual": "science_tech",
-        "correct": 1,
-        "confidence": null,
-        "confidence_source": null,
-        "latency": 7.1719,
-        "input_tokens": 88,
-        "output_tokens": 3,
-        "cost": 0.00014000000000000001
+        "output_tokens": 1,
+        "cost": 0.0001375
       },
       {
         "input": "Singapore Airlines confirms sale of Air NZ stake SYDNEY - Singapore Airlines announced on Tuesday the sale of its  quot;non-core quot; 6.3 stake in Air New Zealand, ending a four-year strategic investment in the now government-owned carrier.",
-        "predicted": "business",
+        "predicted": "",
         "actual": "business",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.4488,
+        "latency": 6.7046,
         "input_tokens": 114,
-        "output_tokens": 1,
-        "cost": 0.00015250000000000002
+        "output_tokens": 0,
+        "cost": 0.00014250000000000002
       },
       {
         "input": "Yahoo offers personal search Yahoo launched a new service designed to let users of its search engine save and manage their query results for accessing later and sharing with others, the company said Tuesday.",
-        "predicted": "science_tech",
+        "predicted": "",
         "actual": "science_tech",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 13.1076,
+        "latency": 24.7622,
         "input_tokens": 96,
-        "output_tokens": 3,
-        "cost": 0.00015
+        "output_tokens": 0,
+        "cost": 0.00011999999999999999
       },
       {
         "input": "A PC in the toaster? How mod! photos There's also room in the humidor and the Darth Vader helmet. Take a gander at some strange and wonderful creations.",
-        "predicted": "science_tech",
+        "predicted": "",
         "actual": "science_tech",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.0102,
+        "latency": 27.7632,
         "input_tokens": 96,
-        "output_tokens": 3,
-        "cost": 0.00015
+        "output_tokens": 0,
+        "cost": 0.00011999999999999999
       },
       {
         "input": "FA Plan New United-Arsenal Talks The Football Association are set to wait until after the conclusion of any disciplinary action against Arsene Wenger before trying to broker a peace summit between Arsenal and Manchester United.",
-        "predicted": "sports",
+        "predicted": "",
         "actual": "sports",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.0845,
+        "latency": 12.2479,
         "input_tokens": 99,
-        "output_tokens": 1,
-        "cost": 0.00013375
+        "output_tokens": 0,
+        "cost": 0.00012375
       },
       {
         "input": "Lonely whale #39;s song remains a mystery A lone whale with a voice unlike any other has been wandering the Pacific for the past 12 years. Marine biologist Mary Ann Daher of Woods Hole Oceanographic Institution in Massachusetts, US, and her colleagues ",
-        "predicted": "science_tech",
+        "predicted": "",
         "actual": "science_tech",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.0471,
+        "latency": 32.5747,
         "input_tokens": 113,
-        "output_tokens": 3,
-        "cost": 0.00017125000000000002
+        "output_tokens": 0,
+        "cost": 0.00014125000000000002
       },
       {
         "input": "Thrashers Owner Fined The NHL fined one of the owners of the Thrashers \\$250,000 on Tuesday for saying the league would use replacement players next year if a new collective bargaining agreement isn't reached.",
-        "predicted": "sports",
+        "predicted": "",
         "actual": "sports",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.7926,
+        "latency": 6.1017,
         "input_tokens": 109,
-        "output_tokens": 1,
-        "cost": 0.00014625000000000003
+        "output_tokens": 0,
+        "cost": 0.00013625
       },
       {
         "input": "Briefly: Top McAfee exec to step down roundup Plus:  Samsung to put hard drives in phones...IDC says external disk storage up...Lawmakers to vote on spyware, piracy bills.",
-        "predicted": "science_tech",
+        "predicted": "",
         "actual": "science_tech",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 8.48,
+        "latency": 11.0722,
         "input_tokens": 98,
-        "output_tokens": 3,
-        "cost": 0.0001525
+        "output_tokens": 0,
+        "cost": 0.0001225
       },
       {
         "input": "Virgin Mobile growth prospects disappoint Richard Branson #39;s Virgin Mobile has forecast substantially higher earnings and margins, but disappointing predictions for service revenue ",
-        "predicted": "business",
+        "predicted": "",
         "actual": "business",
-        "correct": 1,
+        "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 5.8881,
+        "latency": 10.2302,
         "input_tokens": 89,
-        "output_tokens": 1,
-        "cost": 0.00012124999999999999
+        "output_tokens": 0,
+        "cost": 0.00011125000000000001
       }
     ]
   }

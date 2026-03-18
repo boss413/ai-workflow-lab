@@ -1,6 +1,6 @@
 {
   "task": "classification",
-  "timestamp": "20260317_110133",
+  "timestamp": "20260317_150831",
   "sample_size": 20,
   "seed": 42,
   "generation_params": {
@@ -20,9 +20,9 @@
       "model_id": "google:gemini-2.5-pro",
       "cost_tier": "medium",
       "samples": 20,
-      "accuracy": 0.85,
-      "avg_latency": 9.4243,
-      "total_cost": 0.002973,
+      "accuracy": 0.9,
+      "avg_latency": 6.9894,
+      "total_cost": 0.003002,
       "avg_confidence": null
     }
   ],
@@ -35,7 +35,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.0561,
+        "latency": 5.1729,
         "input_tokens": 111,
         "output_tokens": 1,
         "cost": 0.00014875
@@ -47,7 +47,7 @@
         "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.9204,
+        "latency": 7.1175,
         "input_tokens": 124,
         "output_tokens": 1,
         "cost": 0.000165
@@ -59,7 +59,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 20.6434,
+        "latency": 7.3799,
         "input_tokens": 92,
         "output_tokens": 3,
         "cost": 0.00014500000000000003
@@ -71,7 +71,7 @@
         "correct": 0,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.7794,
+        "latency": 6.5561,
         "input_tokens": 119,
         "output_tokens": 1,
         "cost": 0.00015875
@@ -83,7 +83,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 5.4783,
+        "latency": 5.8696,
         "input_tokens": 125,
         "output_tokens": 1,
         "cost": 0.00016625
@@ -95,7 +95,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.306,
+        "latency": 7.7513,
         "input_tokens": 121,
         "output_tokens": 1,
         "cost": 0.00016125000000000002
@@ -107,7 +107,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 18.0902,
+        "latency": 11.7534,
         "input_tokens": 131,
         "output_tokens": 1,
         "cost": 0.00017375000000000002
@@ -119,7 +119,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 13.5291,
+        "latency": 4.8397,
         "input_tokens": 90,
         "output_tokens": 1,
         "cost": 0.0001225
@@ -131,7 +131,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.0244,
+        "latency": 6.2898,
         "input_tokens": 122,
         "output_tokens": 1,
         "cost": 0.0001625
@@ -143,7 +143,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 10.4313,
+        "latency": 5.8512,
         "input_tokens": 91,
         "output_tokens": 1,
         "cost": 0.00012375
@@ -155,7 +155,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.2008,
+        "latency": 5.1755,
         "input_tokens": 102,
         "output_tokens": 3,
         "cost": 0.0001575
@@ -167,7 +167,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.2863,
+        "latency": 7.1719,
         "input_tokens": 88,
         "output_tokens": 3,
         "cost": 0.00014000000000000001
@@ -179,22 +179,22 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 11.8681,
+        "latency": 6.4488,
         "input_tokens": 114,
         "output_tokens": 1,
         "cost": 0.00015250000000000002
       },
       {
         "input": "Yahoo offers personal search Yahoo launched a new service designed to let users of its search engine save and manage their query results for accessing later and sharing with others, the company said Tuesday.",
-        "predicted": "",
+        "predicted": "science_tech",
         "actual": "science_tech",
-        "correct": 0,
+        "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 11.7087,
+        "latency": 13.1076,
         "input_tokens": 96,
-        "output_tokens": 0,
-        "cost": 0.00011999999999999999
+        "output_tokens": 3,
+        "cost": 0.00015
       },
       {
         "input": "A PC in the toaster? How mod! photos There's also room in the humidor and the Darth Vader helmet. Take a gander at some strange and wonderful creations.",
@@ -203,7 +203,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 7.2853,
+        "latency": 6.0102,
         "input_tokens": 96,
         "output_tokens": 3,
         "cost": 0.00015
@@ -215,7 +215,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 9.3532,
+        "latency": 6.0845,
         "input_tokens": 99,
         "output_tokens": 1,
         "cost": 0.00013375
@@ -227,7 +227,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 5.8766,
+        "latency": 6.0471,
         "input_tokens": 113,
         "output_tokens": 3,
         "cost": 0.00017125000000000002
@@ -239,7 +239,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 8.6335,
+        "latency": 6.7926,
         "input_tokens": 109,
         "output_tokens": 1,
         "cost": 0.00014625000000000003
@@ -251,7 +251,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 9.8146,
+        "latency": 8.48,
         "input_tokens": 98,
         "output_tokens": 3,
         "cost": 0.0001525
@@ -263,7 +263,7 @@
         "correct": 1,
         "confidence": null,
         "confidence_source": null,
-        "latency": 6.1995,
+        "latency": 5.8881,
         "input_tokens": 89,
         "output_tokens": 1,
         "cost": 0.00012124999999999999
